@@ -1,0 +1,12 @@
+@import url("https://fonts.googleapis.com/css2?family=Sofia+Sans:ital,wght@0,1..1000;1,1..1000&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  @apply font-sofia;
+}
+.container {
+  @apply mx-auto max-w-7xl;
+}
