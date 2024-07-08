@@ -9,8 +9,8 @@ const naveItems = [
 
 const NavItems = () => {
   return (
-    <nav>
-      <ul className="flex gap-8 font-semibold text-lg uppercase">
+    <nav className="hidden md:block">
+      <ul className="flex gap-8  font-semibold text-lg uppercase">
         {naveItems.map((item) => (
           <ActiveLink key={item.path} to={item.path}>
             {item.name}

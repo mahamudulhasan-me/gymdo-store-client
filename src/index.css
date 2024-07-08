@@ -10,3 +10,13 @@ body {
 .container {
   @apply mx-auto max-w-7xl;
 }
+/* drawerStyles.css */
+.drawer-content {
+  left: 0;
+  transform: translateX(-100%);
+  transition: transform 0.3s ease-in-out;
+}
+
+.drawer-content.open {
+  transform: translateX(0);
+}
