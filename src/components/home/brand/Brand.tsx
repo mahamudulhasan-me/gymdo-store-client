@@ -15,7 +15,7 @@ import brand5 from "../../../assets/images/brand/5.png";
 const Brand = () => {
   const brandImages = [brand1, brand2, brand3, brand4, brand5];
   return (
-    <div className="bg-[#333333] w-screen py-5 px-[10%] ">
+    <div className="bg-[#333333] w-screen py-5 px-[10%] overflow-hidden">
       <Swiper
         slidesPerView={4}
         spaceBetween={30}

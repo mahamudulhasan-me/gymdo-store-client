@@ -16,7 +16,7 @@ const Testimonial = () => {
         slidesPerView={3}
         spaceBetween={30}
         autoplay={{
-          delay: 5000,
+          delay: 3000,
           disableOnInteraction: false,
         }}
         pagination={{
@@ -24,15 +24,11 @@ const Testimonial = () => {
         }}
         modules={[Autoplay]}
       >
-        <SwiperSlide>
-          <TestimonialCard />
-        </SwiperSlide>
-        <SwiperSlide>
-          <TestimonialCard />
-        </SwiperSlide>
-        <SwiperSlide>
-          <TestimonialCard />
-        </SwiperSlide>
+        {Array.from({ length: 8 }).map(() => (
+          <SwiperSlide>
+            <TestimonialCard />
+          </SwiperSlide>
+        ))}
       </Swiper>
     </div>
   );

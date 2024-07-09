@@ -9,7 +9,7 @@ const SectionHead = ({
     <div className="relative flex flex-col justify-center items-center mb-10">
       <h1
         className={
-          `text-center text-slate-900 font-semibold text-3xl capitalize tracking-wide` +
+          `text-center text-black font-semibold text-3xl capitalize tracking-wide` +
           className
         }
       >
