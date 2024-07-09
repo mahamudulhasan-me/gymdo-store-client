@@ -1,11 +1,5 @@
 import ActiveLink from "../../../utils/ActiveLink";
-
-const naveItems = [
-  { name: "Home", path: "/" },
-  { name: "Products", path: "/products" },
-  { name: "Manage Product", path: "/manage-product" },
-  { name: "About Us", path: "/about" },
-];
+import { naveItems } from "../../../utils/navItems";
 
 const NavItems = () => {
   return (
