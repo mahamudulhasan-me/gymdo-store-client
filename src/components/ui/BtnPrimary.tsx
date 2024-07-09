@@ -16,7 +16,7 @@ export const BtnPrimary = ({
   );
 };
 
-export const BtnSecondary = ({
+export const BtnPrimaryMini = ({
   text,
   title,
 }: {

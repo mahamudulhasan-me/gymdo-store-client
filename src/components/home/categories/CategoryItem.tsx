@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { BtnSecondary } from "../../ui/BtnPrimary";
+import { BtnPrimaryMini } from "../../ui/BtnPrimary";
 
 const CategoryItem = ({ img, category }: { img: string; category: string }) => {
   return (
@@ -16,7 +16,7 @@ const CategoryItem = ({ img, category }: { img: string; category: string }) => {
           {category}
         </h2>
         <Link to={category}>
-          <BtnSecondary text="Start" title="Shop Now" />
+          <BtnPrimaryMini text="Start" title="Shop Now" />
         </Link>
       </div>
     </div>

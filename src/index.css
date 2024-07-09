@@ -20,3 +20,43 @@ body {
 .drawer-content.open {
   transform: translateX(0);
 }
+
+.tooltip {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+}
+
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+  opacity: 1;
+}
+
+.tooltiptext {
+  visibility: hidden;
+  width: 100px;
+  background-color: #1a0707;
+  color: #fff;
+  text-align: center;
+  border-radius: 8px;
+  padding: 2px;
+  font-size: 14px;
+  position: absolute;
+  z-index: 1;
+  bottom: 125%;
+  left: 125%;
+  margin-left: -80px;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.tooltiptext::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: #1a0707 transparent transparent transparent;
+}
