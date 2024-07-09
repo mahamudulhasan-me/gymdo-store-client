@@ -10,6 +10,7 @@ import ig4 from "../../../assets/images/gallery/ig4.jpg";
 import ig6 from "../../../assets/images/gallery/ig6.jpg";
 import ig8 from "../../../assets/images/gallery/ig8.jpg";
 import ig9 from "../../../assets/images/gallery/ig9.jpg";
+import SectionHead from "../../../utils/SectionHead";
 
 const PhotoGallery = () => {
   const photos = [
@@ -29,12 +30,8 @@ const PhotoGallery = () => {
 
   return (
     <div className="py-10 bg-gray-100">
-      <div className="relative flex flex-col justify-center items-center mb-10">
-        <h1 className="text-center text-slate-900 font-semibold text-3xl capitalize tracking-wide">
-          Healthy Individuals Gallery
-        </h1>
-        <div className="w-24 h-0.5 bg-primary"></div>
-      </div>
+      <SectionHead title="Healthy Individuals Gallery" />
+
       <PhotoProvider>
         <div className="grid grid-cols-12 gap-4 p-4">
           {photos.map((photo, index) => (

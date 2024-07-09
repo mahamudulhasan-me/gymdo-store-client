@@ -1,3 +1,4 @@
+import SectionHead from "../../../utils/SectionHead";
 import ProductCard from "../../card/ProductCard";
 import { BtnSecondary } from "../../ui/BtnSecondary";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../../ui/tabs";
@@ -5,9 +6,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "../../ui/tabs";
 const ClothesAndEquipment = () => {
   return (
     <div className="md:px-[10%] px-5 my-20">
-      <h1 className="text-center text-primary font-semibold text-3xl capitalize tracking-wide">
-        clothes & equipment
-      </h1>
+      <SectionHead title="clothes & equipment" />
       <Tabs defaultValue="EQUIPMENT">
         <TabsList className="grid md:w-1/2 w-full grid-cols-3 mx-auto mt-5 mb-10">
           <TabsTrigger value="EQUIPMENT">EQUIPMENT</TabsTrigger>
@@ -16,10 +15,9 @@ const ClothesAndEquipment = () => {
         </TabsList>
         <TabsContent value="EQUIPMENT">
           <div className="grid md:grid-cols-4 gap-8">
-            <ProductCard />
-            <ProductCard />
-            <ProductCard />
-            <ProductCard />
+            {Array.from({ length: 8 }).map(() => (
+              <ProductCard />
+            ))}
           </div>
         </TabsContent>
         <TabsContent value="MENS_CLOTHES">MEN</TabsContent>
