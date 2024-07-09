@@ -4,7 +4,7 @@ import support from "../../../assets/icon/technical-support.png";
 import WhyChooseItem from "./WhyChooseItem";
 const WhyChoose = () => {
   return (
-    <div className="px-[10%] flex items-center justify-center gap-5 mt-10">
+    <div className="px-[10%] md:flex items-center justify-center gap-5 mt-10 space-y-5 md:space-y-0">
       <WhyChooseItem
         icon={truck}
         title="Fast National & International Delivery"

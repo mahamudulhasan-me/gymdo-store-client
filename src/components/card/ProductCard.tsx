@@ -10,7 +10,7 @@ const ProductCard = () => {
     <div>
       <div className="relative group overflow-hidden">
         <img src={product} alt="" />
-        <div className="absolute top-0 right-80 group-hover:right-0 w-full h-full bg-slate-950/40 transition-all ease-in-out duration-300 overflow-hidden">
+        <div className="absolute top-0 right-96 group-hover:right-0 w-full h-full bg-slate-950/40 transition-all ease-in-out duration-300 overflow-hidden">
           <div className="absolute top-0 right-80 group-hover:right-0 transition-all duration-500 w-full h-full">
             <div className="flex justify-center items-center h-full gap-1">
               <button className="bg-white rounded-full p-2 hover:bg-primary hover:text-white transition-all hover:transition-all text-xl tooltip">

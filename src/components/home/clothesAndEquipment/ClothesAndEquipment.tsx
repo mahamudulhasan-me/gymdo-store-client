@@ -4,18 +4,18 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "../../ui/tabs";
 
 const ClothesAndEquipment = () => {
   return (
-    <div className="px-[10%] my-20">
+    <div className="md:px-[10%] px-5 my-20">
       <h1 className="text-center text-primary font-semibold text-3xl capitalize tracking-wide">
         clothes & equipment
       </h1>
       <Tabs defaultValue="EQUIPMENT">
-        <TabsList className="grid w-1/2 grid-cols-3 mx-auto mt-5 mb-10">
+        <TabsList className="grid md:w-1/2 w-full grid-cols-3 mx-auto mt-5 mb-10">
           <TabsTrigger value="EQUIPMENT">EQUIPMENT</TabsTrigger>
           <TabsTrigger value="MENS_CLOTHES">MEN'S CLOTHES</TabsTrigger>
           <TabsTrigger value="WOMANS_CLOTHES">WOMAN'S CLOTHES</TabsTrigger>
         </TabsList>
         <TabsContent value="EQUIPMENT">
-          <div className="grid grid-cols-4 gap-8">
+          <div className="grid md:grid-cols-4 gap-8">
             <ProductCard />
             <ProductCard />
             <ProductCard />
