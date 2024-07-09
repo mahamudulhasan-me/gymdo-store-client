@@ -4,9 +4,15 @@
 .buttons {
 }
 
-.buttons button {
+.buttonsWidth button {
   width: 148px;
   height: 46px;
+}
+.buttonsWidth2 button {
+  width: 96px;
+  height: 36px;
+}
+.buttons button {
   background-color: white;
   /* margin: 20px; */
   color: #fb5b21;

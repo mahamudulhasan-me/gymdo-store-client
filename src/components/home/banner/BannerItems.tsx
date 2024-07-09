@@ -1,7 +1,8 @@
-import banner1 from "../../assets/images/banner/slideshow-bg1.jpg";
-import banner2 from "../../assets/images/banner/slideshowV2-bg2.jpg";
-import banner3 from "../../assets/images/banner/slideshowV2-bg3.jpg";
-import BtnPrimary from "../ui/BtnPrimary";
+import banner1 from "../../../assets/images/banner/slideshow-bg1.jpg";
+import banner2 from "../../../assets/images/banner/slideshowV2-bg2.jpg";
+import banner3 from "../../../assets/images/banner/slideshowV2-bg3.jpg";
+import { BtnPrimary } from "../../ui/BtnPrimary";
+
 export const BannerItem1 = () => {
   return (
     <div>

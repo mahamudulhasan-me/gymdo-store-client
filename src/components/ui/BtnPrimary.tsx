@@ -1,7 +1,13 @@
 import "./style/BtnPrimaryStyle.css";
-const BtnPrimary = ({ text, title }: { text: string; title: string }) => {
+export const BtnPrimary = ({
+  text,
+  title,
+}: {
+  text: string;
+  title: string;
+}) => {
   return (
-    <div className="buttons">
+    <div className="buttons buttonsWidth">
       <button className="btn">
         <span></span>
         <p data-start="good luck!" data-text={text} data-title={title}></p>
@@ -10,4 +16,19 @@ const BtnPrimary = ({ text, title }: { text: string; title: string }) => {
   );
 };
 
-export default BtnPrimary;
+export const BtnSecondary = ({
+  text,
+  title,
+}: {
+  text: string;
+  title: string;
+}) => {
+  return (
+    <div className="buttons buttonsWidth2">
+      <button className="btn">
+        <span></span>
+        <p data-start="good luck!" data-text={text} data-title={title}></p>
+      </button>
+    </div>
+  );
+};

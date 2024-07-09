@@ -1,9 +1,11 @@
-import Banner from "../components/banner/Banner";
+import Banner from "../components/home/banner/Banner";
+import Categories from "../components/home/categories/Categories";
 
 const HomePage = () => {
   return (
     <div>
       <Banner />
+      <Categories />
     </div>
   );
 };
