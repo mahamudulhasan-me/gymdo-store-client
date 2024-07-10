@@ -1,5 +1,6 @@
 import about1 from "../assets/images/about/about1.1.jpg";
 import about2 from "../assets/images/about/about1.2.jpg";
+import Team from "../components/about/team/Team";
 import Testimonial from "../components/about/testimonial/Testimonial";
 import PageCover from "../components/pageCover/PageCover";
 const AboutUs = () => {
@@ -39,7 +40,7 @@ const AboutUs = () => {
           className="w-full h-full hover:scale-95 transition-all duration-500 "
         />
         <article>
-          <h1 className="text-red-300xl font-semibold mb-2">Who We Are ?</h1>
+          <h1 className="text-3xl font-semibold mb-2">Who We Are ?</h1>
           <div className="flex gap-2 items-center">
             <div className="w-10 h-0.5 bg-primary"></div>{" "}
             <p className="text-sm text-gray-500">THE HIGH STRESS FAVORITE</p>
@@ -60,6 +61,7 @@ const AboutUs = () => {
           </div>
         </article>
       </section>
+      <Team />
       <Testimonial />
     </div>
   );
