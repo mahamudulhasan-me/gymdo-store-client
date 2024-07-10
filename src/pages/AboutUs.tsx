@@ -6,7 +6,7 @@ import PageCover from "../components/pageCover/PageCover";
 const AboutUs = () => {
   return (
     <div>
-      <PageCover />
+      <PageCover title="About Us" />
       <section className="md:px-[20%] px-5 my-20 grid grid-cols-2 gap-10">
         <article>
           <h1 className="text-3xl font-semibold mb-2">Our Story</h1>

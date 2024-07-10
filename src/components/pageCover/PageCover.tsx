@@ -8,7 +8,7 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "../ui/breadcrumb";
-const PageCover = () => {
+const PageCover = ({ title }: { title: string }) => {
   return (
     <div className="w-screen relative">
       <img src={bgBanner} alt="" className="w-full h-80" />
@@ -17,7 +17,7 @@ const PageCover = () => {
           <h1
             className={`text-center text-white font-semibold text-4xl capitalize tracking-wide`}
           >
-            About Us
+            {title}
           </h1>
           <div className="w-24 h-0.5 bg-primary"></div>
         </div>
@@ -30,7 +30,7 @@ const PageCover = () => {
             </BreadcrumbItem>
             <BreadcrumbSeparator className="text-white" />
             <BreadcrumbItem>
-              <BreadcrumbPage>About Us</BreadcrumbPage>
+              <BreadcrumbPage>{title}</BreadcrumbPage>
             </BreadcrumbItem>
           </BreadcrumbList>
         </Breadcrumb>
