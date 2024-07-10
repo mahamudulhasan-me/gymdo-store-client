@@ -8,10 +8,16 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "../ui/breadcrumb";
-const PageCover = ({ title }: { title: string }) => {
+const PageCover = ({
+  image = bgBanner,
+  title,
+}: {
+  title: string;
+  image?: string;
+}) => {
   return (
     <div className="w-screen relative">
-      <img src={bgBanner} alt="" className="w-full h-80" />
+      <img src={image} alt="" className="w-full h-80" />
       <div className="absolute inset-0 flex flex-col justify-center items-center ">
         <div className="relative flex flex-col justify-center items-center mb-10">
           <h1

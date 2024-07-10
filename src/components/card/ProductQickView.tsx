@@ -1,7 +1,14 @@
-import { HiOutlineMagnifyingGlass } from "react-icons/hi2";
+import { useState } from "react";
+import {
+  HiOutlineMagnifyingGlass,
+  HiOutlineMinus,
+  HiOutlinePlus,
+} from "react-icons/hi2";
 import product1 from "../../assets/images/products/12.jpg";
+import BtnAddToCart from "../ui/BtnAddToCart";
 import { Dialog, DialogContent, DialogTrigger } from "../ui/dialog";
 export function DialogCloseButton() {
+  const [quantity, setQuantity] = useState(1);
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -28,7 +35,27 @@ export function DialogCloseButton() {
             We Will Always Be With You These models have varying features
             depending on which you choose and also come with different...
           </p>
-          <div></div>
+          <div className="flex items-center mt-10 gap-6">
+            <div className="border-2 font-bold text-xl flex items-center space-x-2">
+              <span className="px-3 w-10">{quantity}</span>
+              <div className="flex flex-col items-center border-l">
+                <button
+                  onClick={() => setQuantity(quantity + 1)}
+                  className="px-3 py-0.5 border-b hover:text-primary"
+                >
+                  <HiOutlinePlus />
+                </button>
+                <button
+                  disabled={quantity === 1}
+                  onClick={() => setQuantity(quantity - 1)}
+                  className="px-3 py-0.5  hover:text-primary"
+                >
+                  <HiOutlineMinus />
+                </button>
+              </div>
+            </div>
+            <BtnAddToCart />
+          </div>
         </div>
       </DialogContent>
     </Dialog>

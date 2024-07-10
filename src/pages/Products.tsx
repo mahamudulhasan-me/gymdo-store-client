@@ -1,7 +1,16 @@
 import { HiOutlineMagnifyingGlass } from "react-icons/hi2";
 import ProductCard from "../components/card/ProductCard";
 import PageCover from "../components/pageCover/PageCover";
+import { Button } from "../components/ui/button";
 import { Checkbox } from "../components/ui/checkbox";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "../components/ui/pagination";
 import {
   Select,
   SelectContent,
@@ -205,11 +214,39 @@ const Products = () => {
               </Select>
             </>
           </div>
-          <div className="grid grid-cols-4 gap-5 mt-10">
+          <div className="grid grid-cols-4 gap-5 mt-10 gap-y-10">
             {Array.from({ length: 8 }).map(() => (
               <ProductCard />
             ))}
           </div>
+          <Pagination className="mt-10 ">
+            <PaginationContent className="space-x-4">
+              <PaginationItem>
+                <Button variant="outline" className="border-none">
+                  <PaginationPrevious size={24} href="#" />
+                </Button>
+              </PaginationItem>
+              <PaginationItem>
+                <Button variant="outline">
+                  <PaginationLink size={24} href="#">
+                    2
+                  </PaginationLink>
+                </Button>
+              </PaginationItem>
+              <PaginationItem>
+                <Button variant="outline">
+                  <PaginationLink size={24} href="#">
+                    1
+                  </PaginationLink>
+                </Button>
+              </PaginationItem>
+              <PaginationItem>
+                <Button variant="outline" className="border-none">
+                  <PaginationNext size={24} href="#" />
+                </Button>
+              </PaginationItem>
+            </PaginationContent>
+          </Pagination>
         </div>
       </div>
     </div>
