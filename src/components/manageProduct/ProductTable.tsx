@@ -33,6 +33,7 @@ import {
   TableHeader,
   TableRow,
 } from "../ui/table";
+import { ProductMutationModal } from "./ProductMutationModal";
 
 const data: Payment[] = [
   {
@@ -74,59 +75,74 @@ export type Payment = {
   name: string;
 };
 
-export const columns: ColumnDef<Payment>[] = [
-  {
-    accessorKey: "name",
-    header: "Name",
-    cell: ({ row }) => <div className="capitalize">{row.getValue("name")}</div>,
-  },
-  {
-    accessorKey: "category",
-    header: "Category",
-    cell: ({ row }) => (
-      <div className="capitalize">{row.getValue("category")}</div>
-    ),
-  },
-
-  {
-    accessorKey: "price",
-    header: ({ column }) => {
-      return (
-        <button
-          className="flex items-center gap-0.5 text-lg"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Price
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </button>
-      );
-    },
-    cell: ({ row }) => (
-      <div className="lowercase text-left">{row.getValue("price")}</div>
-    ),
-  },
-
-  {
-    id: "actions",
-    header: "Actions",
-    // enableHiding: false,
-    cell: ({ row }) => {
-      return (
-        <div className="flex items-center gap-2 text-lg">
-          <HiOutlinePencilSquare className="hover:text-primary transition-all cursor-pointer" />
-          <HiOutlineTrash className="hover:text-rose-600 transition-all cursor-pointer" />
-        </div>
-      );
-    },
-  },
-];
-
 export function ProductTable() {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = useState({});
+  const [isModalOpen, setModalOpen] = useState(false);
+  const [updateMode, setUpdateMode] = useState(false);
 
+  const handleUpdateMode = () => {
+    setUpdateMode(!updateMode);
+    setModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setModalOpen(false);
+  };
+
+  const columns: ColumnDef<Payment>[] = [
+    {
+      accessorKey: "name",
+      header: "Name",
+      cell: ({ row }) => (
+        <div className="capitalize">{row.getValue("name")}</div>
+      ),
+    },
+    {
+      accessorKey: "category",
+      header: "Category",
+      cell: ({ row }) => (
+        <div className="capitalize">{row.getValue("category")}</div>
+      ),
+    },
+
+    {
+      accessorKey: "price",
+      header: ({ column }) => {
+        return (
+          <button
+            className="flex items-center gap-0.5 text-lg"
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          >
+            Price
+            <ArrowUpDown className="ml-2 h-4 w-4" />
+          </button>
+        );
+      },
+      cell: ({ row }) => (
+        <div className="lowercase text-left">{row.getValue("price")}</div>
+      ),
+    },
+
+    {
+      id: "actions",
+      header: "Actions",
+      // enableHiding: false,
+      cell: ({ row }) => {
+        return (
+          <div className="flex items-center gap-2 text-lg">
+            <HiOutlinePencilSquare
+              onClick={handleUpdateMode}
+              className="hover:text-primary transition-all cursor-pointer"
+            />
+            <HiOutlineTrash className="hover:text-rose-600 transition-all cursor-pointer" />
+          </div>
+        );
+      },
+    },
+  ];
   const table = useReactTable({
     data,
     columns,
@@ -147,23 +163,35 @@ export function ProductTable() {
   });
 
   return (
-    <div className="w-full px-[10%] min-h-fit">
-      <div className="flex items-center py-4">
-        <div className="ui-input-container">
-          <input
-            required
-            placeholder="Search Product..."
-            className="ui-input"
-            type="text"
-            value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
-            onChange={(event) =>
-              table.getColumn("name")?.setFilterValue(event.target.value)
-            }
+    <div className="w-full px-[2%] min-h-fit bg-white rounded-md">
+      <div className="flex items-center justify-between py-4">
+        <div className="flex items-center   gap-5">
+          <button onClick={handleUpdateMode}>
+            <BtnAddItem />
+          </button>
+          <ProductMutationModal
+            isOpen={isModalOpen}
+            onClose={closeModal}
+            updateMode={updateMode}
           />
-          <div className="ui-input-underline"></div>
-          <div className="ui-input-highlight"></div>
-          <div className="ui-input-icon">
-            <HiOutlineMagnifyingGlass />
+          <div className="ui-input-container">
+            <input
+              required
+              placeholder="Search Product..."
+              className="ui-input"
+              type="text"
+              value={
+                (table.getColumn("name")?.getFilterValue() as string) ?? ""
+              }
+              onChange={(event) =>
+                table.getColumn("name")?.setFilterValue(event.target.value)
+              }
+            />
+            <div className="ui-input-underline"></div>
+            <div className="ui-input-highlight"></div>
+            <div className="ui-input-icon">
+              <HiOutlineMagnifyingGlass />
+            </div>
           </div>
         </div>
 
@@ -193,9 +221,8 @@ export function ProductTable() {
               })}
           </DropdownMenuContent>
         </DropdownMenu>
-        <BtnAddItem />
       </div>
-      <div className="rounded-md border">
+      <div className="rounded-sm border">
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
