@@ -17,6 +17,7 @@ import {
   HiOutlinePencilSquare,
   HiOutlineTrash,
 } from "react-icons/hi2";
+import { useGetProductsQuery } from "../../redux/features/product/productApiSlice";
 import BtnAddItem from "../ui/BtnAddItem";
 import { Button } from "../ui/button";
 import {
@@ -35,44 +36,19 @@ import {
 } from "../ui/table";
 import { ProductMutationModal } from "./ProductMutationModal";
 
-const data: Payment[] = [
-  {
-    id: "m5gr84i9",
-    price: 316,
-    category: "success",
-    name: "ken99@yahoo.com",
-  },
-  {
-    id: "3u1reuv4",
-    price: 242,
-    category: "success",
-    name: "Abe45@gmail.com",
-  },
-  {
-    id: "derv1ws0",
-    price: 837,
-    category: "processing",
-    name: "Monserrat44@gmail.com",
-  },
-  {
-    id: "5kma53ae",
-    price: 874,
-    category: "success",
-    name: "Silas22@gmail.com",
-  },
-  {
-    id: "bhqecj4p",
-    price: 721,
-    category: "failed",
-    name: "carmella@hotmail.com",
-  },
-];
-
-export type Payment = {
+// Define the type for your product data
+export type Product = {
   id: string;
-  price: number;
-  category: "pending" | "processing" | "success" | "failed";
   name: string;
+  category: string;
+  brand: string;
+  price: number;
+  discount: number;
+  stock: number;
+  description: string;
+  thumbnail: string;
+  image: string;
+  subcategory: string;
 };
 
 export function ProductTable() {
@@ -83,16 +59,23 @@ export function ProductTable() {
   const [isModalOpen, setModalOpen] = useState(false);
   const [updateMode, setUpdateMode] = useState(false);
 
+  // Fetch product data
+  const { data: products, isLoading } = useGetProductsQuery({});
+
+  // Handle opening modal in update mode
   const handleUpdateMode = () => {
-    setUpdateMode(!updateMode);
+    setUpdateMode(true);
     setModalOpen(true);
   };
 
+  // Handle closing modal
   const closeModal = () => {
     setModalOpen(false);
+    setUpdateMode(false);
   };
 
-  const columns: ColumnDef<Payment>[] = [
+  // Define table columns
+  const columns: ColumnDef<Product>[] = [
     {
       accessorKey: "name",
       header: "Name",
@@ -107,44 +90,54 @@ export function ProductTable() {
         <div className="capitalize">{row.getValue("category")}</div>
       ),
     },
-
     {
       accessorKey: "price",
-      header: ({ column }) => {
-        return (
-          <button
-            className="flex items-center gap-0.5 text-lg"
-            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-          >
-            Price
-            <ArrowUpDown className="ml-2 h-4 w-4" />
-          </button>
-        );
-      },
+      header: ({ column }) => (
+        <button
+          className="flex items-center gap-0.5 text-lg"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Price
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </button>
+      ),
       cell: ({ row }) => (
-        <div className="lowercase text-left">{row.getValue("price")}</div>
+        <div className="lowercase text-left">${row.getValue("price")}</div>
       ),
     },
-
+    {
+      accessorKey: "stock",
+      header: ({ column }) => (
+        <button
+          className="flex items-center gap-0.5 text-lg"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Stock
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </button>
+      ),
+      cell: ({ row }) => (
+        <div className="lowercase text-left">{row.getValue("stock")}</div>
+      ),
+    },
     {
       id: "actions",
       header: "Actions",
-      // enableHiding: false,
-      cell: ({ row }) => {
-        return (
-          <div className="flex items-center gap-2 text-lg">
-            <HiOutlinePencilSquare
-              onClick={handleUpdateMode}
-              className="hover:text-primary transition-all cursor-pointer"
-            />
-            <HiOutlineTrash className="hover:text-rose-600 transition-all cursor-pointer" />
-          </div>
-        );
-      },
+      cell: ({ row }) => (
+        <div className="flex items-center gap-2 text-lg">
+          <HiOutlinePencilSquare
+            onClick={handleUpdateMode}
+            className="hover:text-primary transition-all cursor-pointer"
+          />
+          <HiOutlineTrash className="hover:text-rose-600 transition-all cursor-pointer" />
+        </div>
+      ),
     },
   ];
+
+  // Initialize React Table with fetched data and column configuration
   const table = useReactTable({
-    data,
+    data: products?.data || [], // Assuming products is the array of products in the fetched data
     columns,
     onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,
@@ -227,29 +220,36 @@ export function ProductTable() {
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
-                {headerGroup.headers.map((header) => {
-                  return (
-                    <TableHead key={header.id}>
-                      {header.isPlaceholder
-                        ? null
-                        : flexRender(
-                            header.column.columnDef.header,
-                            header.getContext()
-                          )}
-                    </TableHead>
-                  );
-                })}
+                {headerGroup.headers.map((header) => (
+                  <TableHead key={header.id}>
+                    {header.isPlaceholder
+                      ? null
+                      : flexRender(
+                          header.column.columnDef.header,
+                          header.getContext()
+                        )}
+                  </TableHead>
+                ))}
               </TableRow>
             ))}
           </TableHeader>
           <TableBody>
-            {table.getRowModel().rows?.length ? (
+            {isLoading ? (
+              <TableRow>
+                <TableCell
+                  colSpan={columns.length}
+                  className="h-24 text-center"
+                >
+                  Loading...
+                </TableCell>
+              </TableRow>
+            ) : table.getRowModel()?.rows?.length ? (
               table.getRowModel().rows.map((row) => (
                 <TableRow key={row.id} data-state={row.getIsSelected()}>
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>
                       {flexRender(
-                        cell.column.columnDef.cell,
+                        cell?.column.columnDef.cell,
                         cell.getContext()
                       )}
                     </TableCell>

@@ -9,7 +9,13 @@ const productApiSlice = baseApiSlice.injectEndpoints({
         body: data,
       }),
     }),
+    getProducts: builder.query({
+      query: () => ({
+        url: "products",
+        method: "GET",
+      }),
+    }),
   }),
 });
 
-export const { useAddProductMutation } = productApiSlice;
+export const { useAddProductMutation, useGetProductsQuery } = productApiSlice;
