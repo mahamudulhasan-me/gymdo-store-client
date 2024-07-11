@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useGetProductsQuery } from "../../../redux/features/product/productApiSlice";
 import { IProduct } from "../../../types/product.type";
 import SectionHead from "../../../utils/SectionHead";
@@ -7,30 +8,57 @@ import { ProductCardLoader } from "../../ui/loader/ProductCardLoader";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../../ui/tabs";
 
 const ClothesAndEquipment = () => {
-  const { data: products, isLoading } = useGetProductsQuery({});
+  const [category, setCategory] = useState("Fitness");
+  const { data: products, isLoading } = useGetProductsQuery({ category });
+
+  const renderProductCards = () => {
+    if (isLoading) {
+      return Array.from({ length: 8 }).map((_, index) => (
+        <ProductCardLoader key={index} />
+      ));
+    }
+
+    return products?.data?.map((product: IProduct) => (
+      <ProductCard key={product._id} productDetails={product} />
+    ));
+  };
 
   return (
-    <div className="md:px-[10%] px-5 my-20">
+    <div className="md:px-[10%] px-5 my-20 ">
       <SectionHead title="clothes & equipment" />
-      <Tabs defaultValue="EQUIPMENT">
+      <Tabs defaultValue="Fitness">
         <TabsList className="grid md:w-1/2 w-full grid-cols-3 mx-auto mt-5 mb-10">
-          <TabsTrigger value="EQUIPMENT">EQUIPMENT</TabsTrigger>
-          <TabsTrigger value="MENS_CLOTHES">MEN'S CLOTHES</TabsTrigger>
-          <TabsTrigger value="WOMANS_CLOTHES">WOMAN'S CLOTHES</TabsTrigger>
+          <TabsTrigger onClick={() => setCategory("Fitness")} value="Fitness">
+            FITNESS
+          </TabsTrigger>
+          <TabsTrigger
+            onClick={() => setCategory("Mens_Clothing")}
+            value="Mens_Clothing"
+          >
+            MEN'S CLOTHES
+          </TabsTrigger>
+          <TabsTrigger
+            onClick={() => setCategory("Womans_Clothing")}
+            value="Womans_Clothing"
+          >
+            WOMAN'S CLOTHES
+          </TabsTrigger>
         </TabsList>
-        <TabsContent value="EQUIPMENT">
+        <TabsContent value="Fitness">
           <div className="grid md:grid-cols-4 gap-8">
-            {isLoading
-              ? Array.from({ length: 8 }).map((_, index) => (
-                  <ProductCardLoader key={index} />
-                ))
-              : products?.data?.map((product: IProduct) => (
-                  <ProductCard key={product._id} productDetails={product} />
-                ))}
+            {renderProductCards()}
           </div>
         </TabsContent>
-        <TabsContent value="MENS_CLOTHES">MEN</TabsContent>
-        <TabsContent value="WOMANS_CLOTHES">WOMEN</TabsContent>
+        <TabsContent value="Mens_Clothing">
+          <div className="grid md:grid-cols-4 gap-8">
+            {renderProductCards()}
+          </div>
+        </TabsContent>
+        <TabsContent value="Womans_Clothing">
+          <div className="grid md:grid-cols-4 gap-8">
+            {renderProductCards()}
+          </div>
+        </TabsContent>
       </Tabs>
       <div className="flex justify-center items-center mt-5">
         <BtnSecondary />

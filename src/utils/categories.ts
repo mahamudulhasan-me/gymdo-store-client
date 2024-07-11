@@ -20,10 +20,10 @@ export const subCategories = [
 ];
 
 export const categories = [
-  "Accessories",
+  "Fitness",
   "Mens_Clothing",
   "Womans_Clothing",
-  "Fitness",
+  "Accessories",
   "Lifestyle",
   "Sport",
 ];

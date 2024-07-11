@@ -7,10 +7,14 @@ import "swiper/css/pagination";
 
 // import required modules
 import { Autoplay, Pagination } from "swiper/modules";
+import { useGetProductsQuery } from "../../../redux/features/product/productApiSlice";
+import { IProduct } from "../../../types/product.type";
 import SectionHead from "../../../utils/SectionHead";
 import ProductCard from "../../card/ProductCard";
+import { ProductCardLoader } from "../../ui/loader/ProductCardLoader";
 
 export default function NewArrivals() {
+  const { data: products, isLoading } = useGetProductsQuery({});
   return (
     <div className="md:px-[10%] px-5 py-10">
       <SectionHead title="new arrivals" />
@@ -27,11 +31,15 @@ export default function NewArrivals() {
         modules={[Pagination, Autoplay]}
         className="mySwiper"
       >
-        {Array.from({ length: 8 }).map((_, index) => (
-          <SwiperSlide key={index}>
-            <ProductCard />
-          </SwiperSlide>
-        ))}
+        {isLoading ? (
+          <ProductCardLoader />
+        ) : (
+          products?.data?.map((product: IProduct) => (
+            <SwiperSlide key={product._id}>
+              <ProductCard productDetails={product} />
+            </SwiperSlide>
+          ))
+        )}
       </Swiper>
     </div>
   );

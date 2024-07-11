@@ -3,21 +3,30 @@ import baseApiSlice from "../../baseApi/baseApiSlice";
 const productApiSlice = baseApiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getProducts: builder.query({
-      query: () => ({
-        url: "products",
-        method: "GET",
-      }),
+      query: (query) => {
+        let queryString = "";
+
+        if (query.category) {
+          queryString += `category=${query.category}&`;
+        }
+        if (query.price) {
+          queryString += `price=${query.price}&`;
+        }
+        if (query.brand) {
+          queryString += `brand=${query.brand}&`;
+        }
+
+        return {
+          url: `products?${queryString}`,
+          method: "GET",
+        };
+      },
       providesTags: (result) =>
         result
-          ? [
-              ...result.map(({ id }: { id: string }) => ({
-                type: "Products",
-                id,
-              })),
-              { type: "Products", id: "LIST" },
-            ]
+          ? [{ type: "Products", id: "LIST" }]
           : [{ type: "Products", id: "LIST" }],
     }),
+
     addProduct: builder.mutation({
       query: (data) => ({
         url: "products",
@@ -31,7 +40,7 @@ const productApiSlice = baseApiSlice.injectEndpoints({
         url: `products/${id}`,
         method: "GET",
       }),
-      providesTags: (result, error, id) => [{ type: "Products", id }],
+      providesTags: (_result, _error, id) => [{ type: "Products", id }],
     }),
   }),
 });
