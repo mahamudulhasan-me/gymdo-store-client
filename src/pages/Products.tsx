@@ -3,6 +3,7 @@ import ProductCard from "../components/card/ProductCard";
 import PageCover from "../components/pageCover/PageCover";
 import { Button } from "../components/ui/button";
 import { Checkbox } from "../components/ui/checkbox";
+import { ProductCardLoader } from "../components/ui/loader/ProductCardLoader";
 import {
   Pagination,
   PaginationContent,
@@ -20,6 +21,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../components/ui/select";
+import { useGetProductsQuery } from "../redux/features/product/productApiSlice";
+import { IProduct } from "../types/product.type";
 
 const categories = [
   {
@@ -89,6 +92,7 @@ const brands = [
   },
 ];
 const Products = () => {
+  const { data: products, isLoading } = useGetProductsQuery({});
   return (
     <div>
       <PageCover title="Products" />
@@ -215,9 +219,15 @@ const Products = () => {
             </>
           </div>
           <div className="grid grid-cols-4 gap-5 mt-10 gap-y-10">
-            {Array.from({ length: 8 }).map(() => (
-              <ProductCard />
-            ))}
+            <>
+              {isLoading
+                ? Array.from({ length: 8 }).map((_, index) => (
+                    <ProductCardLoader key={index} />
+                  ))
+                : products?.data?.map((product: IProduct) => (
+                    <ProductCard key={product._id} productDetails={product} />
+                  ))}
+            </>
           </div>
           <Pagination className="mt-10 ">
             <PaginationContent className="space-x-4">

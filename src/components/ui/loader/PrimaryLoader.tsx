@@ -1,4 +1,4 @@
-import "./style/PrimaryLoaderStyle.css";
+import "../style/PrimaryLoaderStyle.css";
 const PrimaryLoader = () => {
   return (
     <div className="loader-container">

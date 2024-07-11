@@ -1,40 +1,55 @@
-import { useState } from "react";
-import {
-  HiOutlineMagnifyingGlass,
-  HiOutlineMinus,
-  HiOutlinePlus,
-} from "react-icons/hi2";
-import product1 from "../../assets/images/products/12.jpg";
+import { useEffect, useState } from "react";
+import { HiOutlineMinus, HiOutlinePlus } from "react-icons/hi2";
+import { useGetProductQuery } from "../../redux/features/product/productApiSlice";
 import BtnAddToCart from "../ui/BtnAddToCart";
-import { Dialog, DialogContent, DialogTrigger } from "../ui/dialog";
-export function DialogCloseButton() {
+import { Dialog, DialogContent } from "../ui/dialog";
+import PrimaryLoader from "../ui/loader/PrimaryLoader";
+
+interface IProductQuickViewModalProps {
+  id?: string;
+  isOpen: boolean;
+  onClose: () => void;
+}
+
+export function ProductQuickViewModal({
+  id,
+  isOpen,
+  onClose,
+}: IProductQuickViewModalProps) {
   const [quantity, setQuantity] = useState(1);
-  return (
-    <Dialog>
-      <DialogTrigger asChild>
-        <button className="bg-white rounded-full p-2 hover:bg-primary hover:text-white  text-xl tooltip transform translate-y-10 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-transform duration-500 delay-400">
-          <HiOutlineMagnifyingGlass />
-          <span className="tooltiptext">QuickView</span>
-        </button>
-      </DialogTrigger>
+  const { data: product, isLoading } = useGetProductQuery(id);
+
+  const { name, price, description, image, thumbnail } = product?.data || {};
+  const [thumbnailUrl, setThumbnailUrl] = useState(thumbnail);
+
+  useEffect(() => {
+    setThumbnailUrl(thumbnail);
+  }, [thumbnail]);
+
+  return isLoading ? (
+    <PrimaryLoader />
+  ) : (
+    <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="w-screen grid grid-cols-2 space-x-3">
         <div>
-          <img src={product1} alt="" />
+          <img src={thumbnailUrl} alt={name} />
           <div className="grid grid-cols-3 gap-4 mt-2">
-            <img src={product1} alt="" />
-            <img src={product1} alt="" />
-            <img src={product1} alt="" />
+            {Array.from({ length: 3 }).map((_, index) => (
+              <img
+                onClick={() => setThumbnailUrl(image)}
+                key={index}
+                src={image}
+                alt={name}
+              />
+            ))}
           </div>
         </div>
         <div>
           <div className="border-b border-gray-300 pb-4">
-            <h2 className="text-xl font-bold pb-1">Dual Adjustable Pulley</h2>
-            <p>$590.00 USD</p>
+            <h2 className="text-xl font-bold pb-1">{name}</h2>
+            <p>${price} USD</p>
           </div>
-          <p className="pt-4 text-gray-700">
-            We Will Always Be With You These models have varying features
-            depending on which you choose and also come with different...
-          </p>
+          <p className="pt-4 text-gray-700">{description}</p>
           <div className="flex items-center mt-10 gap-6">
             <div className="border-2 font-bold text-xl flex items-center space-x-2">
               <span className="px-3 w-10">{quantity}</span>

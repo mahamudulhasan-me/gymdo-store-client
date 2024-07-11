@@ -16,7 +16,7 @@ import {
 } from "../ui/dialog";
 import { Input } from "../ui/input";
 import { Label } from "../ui/label";
-import PrimaryLoader from "../ui/PrimaryLoader";
+import PrimaryLoader from "../ui/loader/PrimaryLoader";
 import {
   Select,
   SelectContent,
