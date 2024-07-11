@@ -27,8 +27,8 @@ export default function NewArrivals() {
         modules={[Pagination, Autoplay]}
         className="mySwiper"
       >
-        {Array.from({ length: 8 }).map(() => (
-          <SwiperSlide>
+        {Array.from({ length: 8 }).map((_, index) => (
+          <SwiperSlide key={index}>
             <ProductCard />
           </SwiperSlide>
         ))}

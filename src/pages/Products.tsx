@@ -23,34 +23,7 @@ import {
 } from "../components/ui/select";
 import { useGetProductsQuery } from "../redux/features/product/productApiSlice";
 import { IProduct } from "../types/product.type";
-
-const categories = [
-  {
-    id: 1,
-    label: "Clothing Gym",
-    value: "clothing",
-  },
-  {
-    id: 2,
-    label: "Fitness Equipment",
-    value: "fitness",
-  },
-  {
-    id: 3,
-    label: "LifeStyle",
-    value: "lifestyle",
-  },
-  {
-    id: 4,
-    label: "Accessories",
-    value: "accessories",
-  },
-  {
-    id: 5,
-    label: "Gym Sport",
-    value: "sport",
-  },
-];
+import { brands, categories } from "../utils/categories";
 
 const price = [
   {
@@ -74,23 +47,7 @@ const price = [
     label: "$300 - $400",
   },
 ];
-const brands = [
-  {
-    id: 1,
-    label: "Adidas",
-    value: "adidas",
-  },
-  {
-    id: 2,
-    label: "Puma",
-    value: "puma",
-  },
-  {
-    id: 3,
-    label: "Reebok",
-    value: "reebok",
-  },
-];
+
 const Products = () => {
   const { data: products, isLoading } = useGetProductsQuery({});
   return (
@@ -108,8 +65,11 @@ const Products = () => {
 
             <div className="flex flex-col items-start space-y-2 mt-5">
               {categories.map((item) => (
-                <span className="text-gray-800 hover:ml-3 transition-all hover:text-primary cursor-pointer text-sm hover:font-semibold">
-                  {item.label}
+                <span
+                  key={item}
+                  className="text-gray-800 hover:ml-3 transition-all hover:text-primary cursor-pointer text-sm hover:font-semibold"
+                >
+                  {item}
                 </span>
               ))}
             </div>
@@ -146,8 +106,11 @@ const Products = () => {
 
             <div className="flex flex-col items-start space-y-2 mt-5">
               {brands.map((item) => (
-                <span className="text-gray-800 hover:ml-3 transition-all hover:text-primary cursor-pointer text-sm hover:font-semibold">
-                  {item.label}
+                <span
+                  key={item}
+                  className="text-gray-800 hover:ml-3 transition-all hover:text-primary cursor-pointer text-sm hover:font-semibold"
+                >
+                  {item}
                 </span>
               ))}
             </div>

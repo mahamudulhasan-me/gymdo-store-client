@@ -5,6 +5,8 @@ import { toast } from "sonner";
 import { useAddProductMutation } from "../../redux/features/product/productApiSlice";
 import { useUploadImageMutation } from "../../redux/features/uploadImgbb/imagebbApiSlice";
 import { IProduct } from "../../types/product.type";
+
+import { brands, categories, subCategories } from "../../utils/categories";
 import { Button } from "../ui/button";
 import {
   Dialog,
@@ -149,11 +151,11 @@ export function ProductMutationModal({
                       </SelectTrigger>
                       <SelectContent>
                         <SelectGroup>
-                          <SelectItem value="apple">Apple</SelectItem>
-                          <SelectItem value="banana">Banana</SelectItem>
-                          <SelectItem value="blueberry">Blueberry</SelectItem>
-                          <SelectItem value="grapes">Grapes</SelectItem>
-                          <SelectItem value="pineapple">Pineapple</SelectItem>
+                          {categories.map((category, index) => (
+                            <SelectItem key={index} value={category}>
+                              {category}
+                            </SelectItem>
+                          ))}
                         </SelectGroup>
                       </SelectContent>
                     </Select>
@@ -172,11 +174,11 @@ export function ProductMutationModal({
                       </SelectTrigger>
                       <SelectContent>
                         <SelectGroup>
-                          <SelectItem value="apple">Apple</SelectItem>
-                          <SelectItem value="banana">Banana</SelectItem>
-                          <SelectItem value="blueberry">Blueberry</SelectItem>
-                          <SelectItem value="grapes">Grapes</SelectItem>
-                          <SelectItem value="pineapple">Pineapple</SelectItem>
+                          {subCategories.map((subcategory, index) => (
+                            <SelectItem key={index} value={subcategory}>
+                              {subcategory}
+                            </SelectItem>
+                          ))}
                         </SelectGroup>
                       </SelectContent>
                     </Select>
@@ -197,11 +199,11 @@ export function ProductMutationModal({
                       </SelectTrigger>
                       <SelectContent>
                         <SelectGroup>
-                          <SelectItem value="apple">Apple</SelectItem>
-                          <SelectItem value="banana">Banana</SelectItem>
-                          <SelectItem value="blueberry">Blueberry</SelectItem>
-                          <SelectItem value="grapes">Grapes</SelectItem>
-                          <SelectItem value="pineapple">Pineapple</SelectItem>
+                          {brands.map((brand, index) => (
+                            <SelectItem key={index} value={brand}>
+                              {brand}
+                            </SelectItem>
+                          ))}
                         </SelectGroup>
                       </SelectContent>
                     </Select>

@@ -123,7 +123,7 @@ export function ProductTable() {
     {
       id: "actions",
       header: "Actions",
-      cell: ({ row }) => (
+      cell: () => (
         <div className="flex items-center gap-2 text-lg">
           <HiOutlinePencilSquare
             onClick={handleUpdateMode}
