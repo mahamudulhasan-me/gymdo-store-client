@@ -22,7 +22,7 @@ const SortProduct = () => {
           <SelectLabel>Default Sorting</SelectLabel>
           <SelectItem value="-price">Price, high to low</SelectItem>
           <SelectItem value="price">Price, low to high</SelectItem>
-          <SelectItem value="newest">Newest</SelectItem>
+          <SelectItem value="-createdAt">Newest</SelectItem>
         </SelectGroup>
       </SelectContent>
     </Select>

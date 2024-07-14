@@ -1,40 +1,60 @@
 import { HiOutlineShoppingCart } from "react-icons/hi2";
+import { useAppSelector } from "../../redux/hooks";
+import { Button } from "../ui/button";
+import { Input } from "../ui/input";
+import { Label } from "../ui/label";
 import {
-  Drawer,
-  DrawerContent,
-  DrawerDescription,
-  DrawerHeader,
-  DrawerTitle,
-  DrawerTrigger,
-} from "../ui/drawer";
+  Sheet,
+  SheetClose,
+  SheetContent,
+  SheetDescription,
+  SheetFooter,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "../ui/sheet";
 
-const Cart = () => {
+export function Cart() {
+  const { totalItems } = useAppSelector((state) => state.cart);
   return (
-    <>
-      <Drawer direction="right">
-        <DrawerTrigger asChild>
-          <HiOutlineShoppingCart className="text-2xl cursor-pointer" />
-        </DrawerTrigger>
-        <DrawerContent className="right-0 left-2/3 -top-24 transform transition-transform duration-300 ease-in-out">
-          <div>
-            <DrawerHeader>
-              <DrawerTitle>Move Goal</DrawerTitle>
-              <DrawerDescription>
-                Set your daily activity goal.
-              </DrawerDescription>
-            </DrawerHeader>
-            <p>content</p>
-            {/* <DrawerFooter>
-            <Button>Submit</Button>
-            <DrawerClose asChild>
-              <Button variant="outline">Cancel</Button>
-            </DrawerClose>
-          </DrawerFooter> */}
+    <Sheet>
+      <SheetTrigger asChild>
+        <button className="relative">
+          <HiOutlineShoppingCart />
+          {totalItems > 0 && (
+            <span className="absolute -top-2 -right-2 inline-flex items-center rounded-full  px-1 py-0.5 h-fit w-fit text-xs font-medium bg-primary text-white">
+              {totalItems}
+            </span>
+          )}
+        </button>
+      </SheetTrigger>
+      <SheetContent>
+        <SheetHeader>
+          <SheetTitle>Edit profile</SheetTitle>
+          <SheetDescription>
+            Make changes to your profile here. Click save when you're done.
+          </SheetDescription>
+        </SheetHeader>
+        <div className="grid gap-4 py-4">
+          <div className="grid grid-cols-4 items-center gap-4">
+            <Label htmlFor="name" className="text-right">
+              Name
+            </Label>
+            <Input id="name" value="Pedro Duarte" className="col-span-3" />
           </div>
-        </DrawerContent>
-      </Drawer>
-    </>
+          <div className="grid grid-cols-4 items-center gap-4">
+            <Label htmlFor="username" className="text-right">
+              Username
+            </Label>
+            <Input id="username" value="@peduarte" className="col-span-3" />
+          </div>
+        </div>
+        <SheetFooter>
+          <SheetClose asChild>
+            <Button type="submit">Save changes</Button>
+          </SheetClose>
+        </SheetFooter>
+      </SheetContent>
+    </Sheet>
   );
-};
-
-export default Cart;
+}

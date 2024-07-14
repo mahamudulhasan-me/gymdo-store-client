@@ -1,6 +1,8 @@
 import { configureStore } from "@reduxjs/toolkit";
 import baseApiSlice from "./baseApi/baseApiSlice";
+import cartSlice from "./features/cart/cartSlice";
 import filterSlice from "./features/filterProducts/filterSlice";
+import quickViewSlice from "./features/quickViewProduct/quickViewSlice";
 import { imagebbApiSlice } from "./features/uploadImgbb/imagebbApiSlice";
 
 export const store = configureStore({
@@ -8,6 +10,8 @@ export const store = configureStore({
     [baseApiSlice.reducerPath]: baseApiSlice.reducer,
     [imagebbApiSlice.reducerPath]: imagebbApiSlice.reducer,
     filter: filterSlice.reducer,
+    cart: cartSlice.reducer,
+    quickView: quickViewSlice.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(

@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { HiOutlineMinus, HiOutlinePlus } from "react-icons/hi2";
-import { useGetProductQuery } from "../../redux/features/product/productApi";
+import { addToCart } from "../../redux/features/cart/cartSlice";
+import { useAppDispatch, useAppSelector } from "../../redux/hooks";
+import { IProduct } from "../../types/product.type";
 import BtnAddToCart from "../ui/BtnAddToCart";
 import { Dialog, DialogContent } from "../ui/dialog";
 import PrimaryLoader from "../ui/loader/PrimaryLoader";
@@ -11,25 +13,28 @@ interface IProductQuickViewModalProps {
   onClose: () => void;
 }
 
-export function ProductQuickViewModal({
-  id,
-  isOpen,
-  onClose,
-}: IProductQuickViewModalProps) {
+export function ProductQuickViewModal() {
   const [quantity, setQuantity] = useState(1);
-  const { data: product, isLoading } = useGetProductQuery(id);
+  const { isOpen, product, isLoading } = useAppSelector(
+    (state) => state.quickView
+  );
 
-  const { name, price, description, image, thumbnail } = product?.data || {};
+  const { name, price, description, image, thumbnail } = product || {};
   const [thumbnailUrl, setThumbnailUrl] = useState(thumbnail);
 
   useEffect(() => {
     setThumbnailUrl(thumbnail);
   }, [thumbnail]);
 
+  const dispatch = useAppDispatch();
+  // onOpenChange={isOpen ? false : true}
+  const handleAddToCart = (product: IProduct) => {
+    dispatch(addToCart({ ...product, id: product?._id, quantity }));
+  };
   return isLoading ? (
     <PrimaryLoader />
   ) : (
-    <Dialog open={isOpen} onOpenChange={onClose}>
+    <Dialog open={isOpen}>
       <DialogContent className="w-screen grid grid-cols-2 space-x-3">
         <div>
           <img src={thumbnailUrl} alt={name} />
@@ -69,7 +74,9 @@ export function ProductQuickViewModal({
                 </button>
               </div>
             </div>
-            <BtnAddToCart />
+            <div onClick={() => handleAddToCart(product)}>
+              <BtnAddToCart />
+            </div>
           </div>
         </div>
       </DialogContent>

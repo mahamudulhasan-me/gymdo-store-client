@@ -2,7 +2,8 @@ import { HiOutlineSearch } from "react-icons/hi";
 import { HiOutlineUser } from "react-icons/hi2";
 import { Link } from "react-router-dom";
 import logo from "../../assets/images/logo.png";
-import Cart from "../cart/Cart";
+
+import { Cart } from "../cart/Cart";
 import NavItems from "./Nav/NavItems";
 import ResponsiveNav from "./Nav/ResponsiveNav";
 

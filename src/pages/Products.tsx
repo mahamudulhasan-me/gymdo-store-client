@@ -38,7 +38,7 @@ const Products = () => {
   } else if (!isLoading && isError) {
     content = (
       <h1 className="col-span-4 text-3xl font-bold text-gray-900">
-        {(error as any).data.message}
+        {(error as any)?.data?.message}
       </h1>
     );
   } else if (!isLoading && !error && data?.data?.length === 0) {
