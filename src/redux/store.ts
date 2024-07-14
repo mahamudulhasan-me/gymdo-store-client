@@ -1,11 +1,13 @@
 import { configureStore } from "@reduxjs/toolkit";
 import baseApiSlice from "./baseApi/baseApiSlice";
+import filterSlice from "./features/filterProducts/filterSlice";
 import { imagebbApiSlice } from "./features/uploadImgbb/imagebbApiSlice";
 
 export const store = configureStore({
   reducer: {
     [baseApiSlice.reducerPath]: baseApiSlice.reducer,
     [imagebbApiSlice.reducerPath]: imagebbApiSlice.reducer,
+    filter: filterSlice.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(

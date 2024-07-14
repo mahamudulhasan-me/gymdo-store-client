@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { HiOutlineMinus, HiOutlinePlus } from "react-icons/hi2";
-import { useGetProductQuery } from "../../redux/features/product/productApiSlice";
+import { useGetProductQuery } from "../../redux/features/product/productApi";
 import BtnAddToCart from "../ui/BtnAddToCart";
 import { Dialog, DialogContent } from "../ui/dialog";
 import PrimaryLoader from "../ui/loader/PrimaryLoader";

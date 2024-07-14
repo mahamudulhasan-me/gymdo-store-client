@@ -17,7 +17,7 @@ import {
   HiOutlinePencilSquare,
   HiOutlineTrash,
 } from "react-icons/hi2";
-import { useGetProductsQuery } from "../../redux/features/product/productApiSlice";
+import { useGetProductsQuery } from "../../redux/features/product/productApi";
 import BtnAddItem from "../ui/BtnAddItem";
 import { Button } from "../ui/button";
 import {

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useGetProductsQuery } from "../../../redux/features/product/productApiSlice";
+import { useGetProductsQuery } from "../../../redux/features/product/productApi";
 import { IProduct } from "../../../types/product.type";
 import SectionHead from "../../../utils/SectionHead";
 import ProductCard from "../../card/ProductCard";

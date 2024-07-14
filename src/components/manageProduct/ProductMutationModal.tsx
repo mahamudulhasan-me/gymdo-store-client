@@ -2,7 +2,7 @@
 import { useEffect } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "sonner";
-import { useAddProductMutation } from "../../redux/features/product/productApiSlice";
+import { useAddProductMutation } from "../../redux/features/product/productApi";
 import { useUploadImageMutation } from "../../redux/features/uploadImgbb/imagebbApiSlice";
 import { IProduct } from "../../types/product.type";
 
