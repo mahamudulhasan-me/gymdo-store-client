@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { HiOutlineMagnifyingGlass } from "react-icons/hi2";
 import { setSearch } from "../../../redux/features/filterProducts/filterSlice";
 import { useAppDispatch, useAppSelector } from "../../../redux/hooks";
@@ -9,27 +9,25 @@ const FilterBySearch: React.FC = () => {
   const filter = useAppSelector((state) => state.filter);
   console.log(filter);
 
-  // Refactored debounce function to handle setting state after delay
-  const debounceHandler = (fn: (value: string) => void, delay: number) => {
-    let timeoutId: NodeJS.Timeout | null = null;
+  // State to track the latest search term
+  const [latestSearchTerm, setLatestSearchTerm] = useState<string>("");
 
-    return (value: string) => {
-      clearTimeout(timeoutId as NodeJS.Timeout);
-      timeoutId = setTimeout(() => {
-        fn(value);
-      }, delay);
+  // useEffect to dispatch setSearch after 5 seconds of inactivity
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      dispatch(setSearch(latestSearchTerm));
+    }, 500);
+
+    return () => {
+      clearTimeout(timer);
     };
-  };
+  }, [latestSearchTerm, dispatch]);
 
-  const handleSearchTerm = debounceHandler((value: string) => {
-    dispatch(setSearch(value)); // Dispatch search action after debounce delay
-  }, 500);
-
-  // Handle input change and trigger debounce logic
+  // Handle input change and update local state
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
     setSearchTerm(value); // Update local state immediately
-    handleSearchTerm(value); // Trigger debounce logic after every change
+    setLatestSearchTerm(value); // Update latest search term
   };
 
   return (

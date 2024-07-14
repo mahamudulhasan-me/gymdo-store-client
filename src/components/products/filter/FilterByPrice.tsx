@@ -25,7 +25,7 @@ const FilterByPrice = () => {
           >
             <Checkbox
               checked={price === item.value}
-              onCheckedChange={() => dispatch(setPrice(item.value))}
+              onClick={() => dispatch(setPrice(item.value))}
               id={item.value.toString()}
               className="peer"
             />
