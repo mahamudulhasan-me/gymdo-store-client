@@ -1,25 +1,20 @@
 import { useEffect, useState } from "react";
 import { HiOutlineMinus, HiOutlinePlus } from "react-icons/hi2";
 import { addToCart } from "../../redux/features/cart/cartSlice";
+import { closeQuickViewModal } from "../../redux/features/quickViewProduct/quickViewSlice";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { IProduct } from "../../types/product.type";
 import BtnAddToCart from "../ui/BtnAddToCart";
-import { Dialog, DialogContent } from "../ui/dialog";
+import { Dialog, DialogContent, DialogOverlay } from "../ui/dialog";
 import PrimaryLoader from "../ui/loader/PrimaryLoader";
 
-interface IProductQuickViewModalProps {
-  id?: string;
-  isOpen: boolean;
-  onClose: () => void;
-}
-
-export function ProductQuickViewModal() {
+export default function ProductQuickViewModal() {
   const [quantity, setQuantity] = useState(1);
-  const { isOpen, product, isLoading } = useAppSelector(
+  const { isOpen, product, isLoading, onClose } = useAppSelector(
     (state) => state.quickView
   );
 
-  const { name, price, description, image, thumbnail } = product || {};
+  const { name, price, description, image, thumbnail } = product as IProduct;
   const [thumbnailUrl, setThumbnailUrl] = useState(thumbnail);
 
   useEffect(() => {
@@ -27,14 +22,21 @@ export function ProductQuickViewModal() {
   }, [thumbnail]);
 
   const dispatch = useAppDispatch();
-  // onOpenChange={isOpen ? false : true}
+
   const handleAddToCart = (product: IProduct) => {
     dispatch(addToCart({ ...product, id: product?._id, quantity }));
   };
+
+  const handleClose = () => {
+    dispatch(closeQuickViewModal());
+    onClose();
+  };
+
   return isLoading ? (
     <PrimaryLoader />
   ) : (
-    <Dialog open={isOpen}>
+    <Dialog open={isOpen} onOpenChange={handleClose}>
+      <DialogOverlay />
       <DialogContent className="w-screen grid grid-cols-2 space-x-3">
         <div>
           <img src={thumbnailUrl} alt={name} />
@@ -74,7 +76,7 @@ export function ProductQuickViewModal() {
                 </button>
               </div>
             </div>
-            <div onClick={() => handleAddToCart(product)}>
+            <div onClick={() => handleAddToCart(product as IProduct)}>
               <BtnAddToCart />
             </div>
           </div>

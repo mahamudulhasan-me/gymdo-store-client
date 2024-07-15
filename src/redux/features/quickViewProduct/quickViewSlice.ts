@@ -3,6 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   isLoading: false,
   isOpen: false,
+  onClose: () => {},
   product: {},
 };
 
@@ -14,7 +15,7 @@ const quickViewSlice = createSlice({
       state.isLoading = true;
       state.isOpen = true;
       state.product = action.payload;
-
+      state.onClose = action.payload.onClose;
       state.isLoading = false;
     },
     closeQuickViewModal: (state) => {
