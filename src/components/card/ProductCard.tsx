@@ -1,14 +1,17 @@
 import {
+  HiMiniCheckBadge,
   HiOutlineHeart,
   HiOutlineMagnifyingGlass,
   HiOutlineShoppingCart,
 } from "react-icons/hi2";
 import { Link } from "react-router-dom";
+import { toast } from "sonner";
+import { addToCart } from "../../redux/features/cart/cartSlice";
 import {
   closeQuickViewModal,
   openQuickViewModal,
 } from "../../redux/features/quickViewProduct/quickViewSlice";
-import { useAppDispatch } from "../../redux/hooks";
+import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { IProduct } from "../../types/product.type";
 import ProductQuickViewModal from "./ProductQickView";
 
@@ -18,7 +21,9 @@ export interface IProductCardProps {
 }
 const ProductCard = ({ productDetails }: IProductCardProps) => {
   const dispatch = useAppDispatch();
+  const { cartItems } = useAppSelector((state) => state.cart);
   const { name, price, thumbnail } = productDetails || {};
+  const inCart = cartItems.find((item) => item.id === productDetails?._id);
 
   const handleOpenModal = (product: IProduct) => {
     dispatch(
@@ -29,6 +34,19 @@ const ProductCard = ({ productDetails }: IProductCardProps) => {
     );
   };
 
+  const handleAddToCart = () => {
+    if (!inCart) {
+      dispatch(
+        addToCart({
+          ...productDetails,
+          id: productDetails?._id,
+          quantity: 1,
+        })
+      );
+      toast.success("Added to cart");
+    }
+  };
+
   return (
     <>
       <ProductQuickViewModal />
@@ -37,10 +55,23 @@ const ProductCard = ({ productDetails }: IProductCardProps) => {
           <img src={thumbnail} alt="" />
           <div className="absolute top-0 left-0 w-full h-full bg-slate-950/40 transition-transform ease-in-out duration-300 transform scale-0 group-hover:scale-100 origin-center">
             <div className="absolute top-0 left-0 w-full h-full flex justify-center items-center gap-2">
-              <button className="bg-white rounded-full p-2 hover:bg-primary hover:text-white  text-xl tooltip transform translate-y-10 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-transform duration-500 delay-300">
-                <HiOutlineShoppingCart />
-                <span className="tooltiptext">Add to Cart</span>
-              </button>
+              {inCart ? (
+                <button
+                  disabled
+                  className=" bg-white rounded-full p-2 hover:bg-primary hover:text-white  text-xl tooltip transform translate-y-10 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-transform duration-500 delay-500"
+                >
+                  <HiMiniCheckBadge size={24} />
+                  <span className="tooltiptext">Already in cart</span>
+                </button>
+              ) : (
+                <button
+                  onClick={handleAddToCart}
+                  className="bg-white rounded-full p-2 hover:bg-primary hover:text-white  text-xl tooltip transform translate-y-10 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-transform duration-500 delay-300"
+                >
+                  <HiOutlineShoppingCart />
+                  <span className="tooltiptext">Add to Cart</span>
+                </button>
+              )}
 
               <button
                 onClick={() => handleOpenModal(productDetails)}

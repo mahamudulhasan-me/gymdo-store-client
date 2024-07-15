@@ -4,22 +4,15 @@ import {
   HiOutlineShoppingCart,
   HiOutlineTrash,
 } from "react-icons/hi2";
+import { MdOutlineShoppingCartCheckout } from "react-icons/md";
+import { Link } from "react-router-dom";
 import {
   decrementQuantity,
   incrementQuantity,
   removeFromCart,
 } from "../../redux/features/cart/cartSlice";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
-import { Button } from "../ui/button";
-import {
-  Sheet,
-  SheetClose,
-  SheetContent,
-  SheetFooter,
-  SheetHeader,
-  SheetTrigger,
-} from "../ui/sheet";
-
+import { Sheet, SheetContent, SheetHeader, SheetTrigger } from "../ui/sheet";
 export function Cart() {
   const { totalItems, total, cartItems } = useAppSelector(
     (state) => state.cart
@@ -39,7 +32,7 @@ export function Cart() {
           )}
         </button>
       </SheetTrigger>
-      <SheetContent className="w-[28rem]">
+      <SheetContent className="w-[29rem] overflow-hidden bg-gray-100">
         <SheetHeader className="border-b">
           <div className="flex items-center text-2xl">
             <p className="px-4 py-2 border-r w-12">{totalItems}</p>
@@ -48,45 +41,66 @@ export function Cart() {
             </p>
           </div>
         </SheetHeader>
-        <div className="p-4 ">
+        <div className="p-2">
           {cartItems.map((item) => (
-            <div className="flex items-center justify-between border-b py-5">
-              <aside className="flex items-center gap-4">
+            <div className="grid grid-cols-12 items-center border-b p-2 rounded-md bg-white">
+              <aside className="col-span-9 flex items-center gap-4">
                 <img src={item.image} alt="" className="size-24" />
                 <div className="space-y-1">
-                  <h3 className="text-xl">{item.name}</h3>
-                  <h3 className="text-xl">QTY: {item.quantity}</h3>
-                  <p className="text-lg">${item.price}.00</p>
+                  <Link to={`/product/${item.id}`}>
+                    <h3 className="text-lg hover:text-primary transition-all">
+                      {item.name}
+                    </h3>
+                  </Link>
+                  <h3>QTY: {item.quantity}</h3>
+                  <p>${item.price}.00</p>
                 </div>
               </aside>
-              <div className="flex flex-col items-center border">
+              <div className="col-span-2 flex flex-col items-center w-12 border ">
                 <button
                   onClick={() => dispatch(incrementQuantity(item))}
-                  className="px-3 py-0.5 border-b hover:text-primary"
+                  className="px-4 py-1 border-b hover:text-primary"
                 >
                   <HiOutlinePlus />
                 </button>
                 <button
                   disabled={item.quantity === 1}
                   onClick={() => dispatch(decrementQuantity(item))}
-                  className="px-3 py-0.5  hover:text-primary"
+                  className="px-4 py-1  hover:text-primary"
                 >
                   <HiOutlineMinus />
                 </button>
               </div>
-              <button onClick={() => dispatch(removeFromCart(item))}>
+              <button
+                className="col-span-1"
+                onClick={() => dispatch(removeFromCart(item))}
+              >
                 <HiOutlineTrash />
               </button>
             </div>
           ))}
-          {total}
         </div>
 
-        <SheetFooter className="absolute bottom-0">
-          <SheetClose asChild>
-            <Button type="submit">Save changes</Button>
-          </SheetClose>
-        </SheetFooter>
+        <div className="absolute bottom-0 left-0 right-0 flex flex-col gap-0 w-full">
+          <div className="flex items-center justify-between bg-white text-xl font-semibold px-4 py-5">
+            <p>Total:</p>
+            <p className="text-primary">${total}.00</p>
+          </div>
+          <div className="flex items-center justify-between">
+            <Link
+              to="/cart"
+              className="bg-gray-900 -mx-2 text-white p-4 w-full flex items-center justify-center gap-2 uppercase  hover:bg-primary transition-all ease-in-out duration-300"
+            >
+              View Cart <HiOutlineShoppingCart size={22} />
+            </Link>
+            <Link
+              to="/cart"
+              className="bg-gray-950 -mx-1 text-white p-4 w-full flex items-center justify-center gap-2 uppercase  hover:bg-primary transition-all ease-in-out duration-300"
+            >
+              Check Out <MdOutlineShoppingCartCheckout size={22} />
+            </Link>
+          </div>
+        </div>
       </SheetContent>
     </Sheet>
   );
