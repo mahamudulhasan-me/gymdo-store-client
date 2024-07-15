@@ -16,7 +16,7 @@ import { ProductCardLoader } from "../../ui/loader/ProductCardLoader";
 export default function NewArrivals() {
   const { data: products, isLoading } = useGetProductsQuery({});
   return (
-    <div className="md:px-[10%] px-5 py-10">
+    <div className="container mx-auto px-5 py-10">
       <SectionHead title="new arrivals" />
       <Swiper
         slidesPerView={4}

@@ -24,7 +24,7 @@ const ClothesAndEquipment = () => {
   };
 
   return (
-    <div className="md:px-[10%] px-5 my-20 ">
+    <div className="container mx-auto px-5 my-20 ">
       <SectionHead title="clothes & equipment" />
       <Tabs defaultValue="Fitness">
         <TabsList className="grid md:w-1/2 w-full grid-cols-3 mx-auto mt-5 mb-10">

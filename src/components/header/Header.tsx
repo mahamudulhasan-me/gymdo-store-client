@@ -10,7 +10,7 @@ import ResponsiveNav from "./Nav/ResponsiveNav";
 const Header = () => {
   return (
     <div className="bg-white">
-      <div className="px-[10%] flex items-center justify-between md:py-6 border-b">
+      <div className="container mx-auto flex items-center justify-between md:py-6 border-b">
         <ResponsiveNav />
         <Link to={"/"}>
           <img src={logo} alt="gymdo logo" className="w-36" />

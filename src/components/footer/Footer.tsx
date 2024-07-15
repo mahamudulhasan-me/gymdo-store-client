@@ -11,7 +11,7 @@ import payCopyright from "../../assets/images/pay_copyright.png";
 const Footer = () => {
   return (
     <footer className="bg-[#f5f5f5]">
-      <div className="grid md:grid-cols-4  px-[10%] py-10 space-y-5 md:space-y-0 justify-center">
+      <div className="grid md:grid-cols-4  container mx-auto py-10 space-y-5 md:space-y-0 justify-center">
         <div className="space-y-4">
           <Link to="">
             <img src={logo} alt="" className="w-36" />
@@ -100,12 +100,14 @@ const Footer = () => {
           </div>
         </div>
       </div>
-      <div className="px-[10%] border-t py-5 flex md:flex-row flex-col-reverse  justify-between items-center">
-        <p className="text-xs text-gray-700 mt-2 md:mt-0">
-          &copy; Copyright 2022. All Rights Reserved. | GymdoStore by Mahamudul
-          Hasan
-        </p>
-        <img src={payCopyright} alt="payment Copyright" className="w-52" />
+      <div className="border-t">
+        <div className="container mx-auto py-5 flex md:flex-row flex-col-reverse  justify-between items-center">
+          <p className="text-xs text-gray-700 mt-2 md:mt-0">
+            &copy; Copyright 2022. All Rights Reserved. | GymdoStore by
+            Mahamudul Hasan
+          </p>
+          <img src={payCopyright} alt="payment Copyright" className="w-52" />
+        </div>
       </div>
     </footer>
   );

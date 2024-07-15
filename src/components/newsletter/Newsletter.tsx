@@ -1,7 +1,7 @@
 import letter from "../../assets/icon/business.png";
 const Newsletter = () => {
   return (
-    <div className="px-[10%] grid grid-cols-12 border-t border-gray-300 py-4 ">
+    <div className="container mx-auto grid grid-cols-12 border-t border-gray-300 py-4 ">
       <div className="col-span-3 flex items-end gap-4 border-r border-gray-300 py-2">
         <img src={letter} alt="news letter" className="size-16" />
         <h3 className="uppercase text-lg font-semibold">

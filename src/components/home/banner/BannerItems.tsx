@@ -11,7 +11,7 @@ export const BannerItem1 = () => {
         className="min-w-full h-full bg-black/20 sm:h-96 md:h-screen w-screen"
       />
       <div className="absolute bottom-0  h-full w-full mx-auto flex justify-start items-center">
-        <div className="px-[10%] text-white">
+        <div className="container mx-auto text-white">
           <p className="uppercase text-lg tracking-widest font-semibold ">
             Need-IT-Now
           </p>

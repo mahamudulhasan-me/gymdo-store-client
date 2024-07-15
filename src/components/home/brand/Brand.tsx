@@ -15,25 +15,27 @@ import brand5 from "../../../assets/images/brand/5.png";
 const Brand = () => {
   const brandImages = [brand1, brand2, brand3, brand4, brand5];
   return (
-    <div className="bg-[#333333] w-screen py-5 px-[10%] overflow-hidden">
-      <Swiper
-        slidesPerView={4}
-        spaceBetween={30}
-        autoplay={{
-          delay: 5000,
-          disableOnInteraction: false,
-        }}
-        pagination={{
-          clickable: true,
-        }}
-        modules={[Autoplay]}
-      >
-        {brandImages.map((brand, index) => (
-          <SwiperSlide key={index}>
-            <img src={brand} className="w-16 mx-auto" />
-          </SwiperSlide>
-        ))}
-      </Swiper>
+    <div className="bg-[#333333]">
+      <div className="py-5 container mx-auto overflow-hidden">
+        <Swiper
+          slidesPerView={4}
+          spaceBetween={30}
+          autoplay={{
+            delay: 5000,
+            disableOnInteraction: false,
+          }}
+          pagination={{
+            clickable: true,
+          }}
+          modules={[Autoplay]}
+        >
+          {brandImages.map((brand, index) => (
+            <SwiperSlide key={index}>
+              <img src={brand} className="w-16 mx-auto" />
+            </SwiperSlide>
+          ))}
+        </Swiper>
+      </div>
     </div>
   );
 };
