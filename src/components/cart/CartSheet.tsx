@@ -1,3 +1,4 @@
+import { FiShoppingBag } from "react-icons/fi";
 import {
   HiOutlineMinus,
   HiOutlinePlus,
@@ -46,70 +47,86 @@ export function CartSheet() {
             </p>
           </div>
         </SheetHeader>
-        <div className="p-2">
-          {cartItems.map((item) => (
-            <div className="grid grid-cols-12 items-center border-b p-2 rounded-md bg-white">
-              <aside className="col-span-9 flex items-center gap-4">
-                <img src={item.image} alt="" className="size-24" />
-                <div className="space-y-1">
-                  <Link to={`/product/${item.id}`}>
-                    <h3 className="text-lg hover:text-primary transition-all">
-                      {item.name}
-                    </h3>
-                  </Link>
-                  <h3>QTY: {item.quantity}</h3>
-                  <p>${item.price}.00</p>
+        {totalItems <= 0 ? (
+          <div className=" border-gray-300  text-rose-600 h-96 flex flex-col justify-center items-center text-xl space-y-4">
+            <p>Your cart is currently empty!</p>
+            <SheetClose asChild>
+              <Link
+                to="/products"
+                className="bg-gray-950  text-white py-3 rounded-sm px-5 flex items-center justify-center gap-2 uppercase  hover:bg-primary transition-all ease-in-out duration-300 text-base"
+              >
+                Go To Shop <FiShoppingBag size={22} />
+              </Link>
+            </SheetClose>
+          </div>
+        ) : (
+          <>
+            <div className="p-2">
+              {cartItems.map((item) => (
+                <div className="grid grid-cols-12 items-center border-b p-2 rounded-md bg-white">
+                  <aside className="col-span-9 flex items-center gap-4">
+                    <img src={item.image} alt="" className="size-24" />
+                    <div className="space-y-1">
+                      <Link to={`/product/${item.id}`}>
+                        <h3 className="text-lg hover:text-primary transition-all">
+                          {item.name}
+                        </h3>
+                      </Link>
+                      <h3>QTY: {item.quantity}</h3>
+                      <p>${item.price}.00</p>
+                    </div>
+                  </aside>
+                  <div className="col-span-2 flex flex-col items-center w-12 border ">
+                    <button
+                      onClick={() => dispatch(incrementQuantity(item))}
+                      className="px-4 py-1 border-b hover:text-primary"
+                    >
+                      <HiOutlinePlus />
+                    </button>
+                    <button
+                      disabled={item.quantity === 1}
+                      onClick={() => dispatch(decrementQuantity(item))}
+                      className="px-4 py-1  hover:text-primary"
+                    >
+                      <HiOutlineMinus />
+                    </button>
+                  </div>
+                  <button
+                    className="col-span-1"
+                    onClick={() => dispatch(removeFromCart(item))}
+                  >
+                    <HiOutlineTrash />
+                  </button>
                 </div>
-              </aside>
-              <div className="col-span-2 flex flex-col items-center w-12 border ">
-                <button
-                  onClick={() => dispatch(incrementQuantity(item))}
-                  className="px-4 py-1 border-b hover:text-primary"
-                >
-                  <HiOutlinePlus />
-                </button>
-                <button
-                  disabled={item.quantity === 1}
-                  onClick={() => dispatch(decrementQuantity(item))}
-                  className="px-4 py-1  hover:text-primary"
-                >
-                  <HiOutlineMinus />
-                </button>
-              </div>
-              <button
-                className="col-span-1"
-                onClick={() => dispatch(removeFromCart(item))}
-              >
-                <HiOutlineTrash />
-              </button>
+              ))}
             </div>
-          ))}
-        </div>
 
-        <div className="absolute bottom-0 left-0 right-0 flex flex-col gap-0 w-full">
-          <div className="flex items-center justify-between bg-white text-xl font-semibold px-4 py-5">
-            <p>Total:</p>
-            <p className="text-primary">${total}.00</p>
-          </div>
-          <div className="flex items-center justify-between">
-            <SheetClose asChild>
-              <Link
-                to="/cart"
-                className="bg-gray-900 -mx-2 text-white p-4 w-full flex items-center justify-center gap-2 uppercase  hover:bg-primary transition-all ease-in-out duration-300"
-              >
-                View Cart <HiOutlineShoppingCart size={22} />
-              </Link>
-            </SheetClose>
-            <SheetClose asChild>
-              <Link
-                to="/cart"
-                className="bg-gray-950 -mx-1 text-white p-4 w-full flex items-center justify-center gap-2 uppercase  hover:bg-primary transition-all ease-in-out duration-300"
-              >
-                Check Out <MdOutlineShoppingCartCheckout size={22} />
-              </Link>
-            </SheetClose>
-          </div>
-        </div>
+            <div className="absolute bottom-0 left-0 right-0 flex flex-col gap-0 w-full">
+              <div className="flex items-center justify-between bg-white text-xl font-semibold px-4 py-5">
+                <p>Total:</p>
+                <p className="text-primary">${total}.00</p>
+              </div>
+              <div className="flex items-center justify-between">
+                <SheetClose asChild>
+                  <Link
+                    to="/cart"
+                    className="bg-gray-900 -mx-2 text-white p-4 w-full flex items-center justify-center gap-2 uppercase  hover:bg-primary transition-all ease-in-out duration-300"
+                  >
+                    View Cart <HiOutlineShoppingCart size={22} />
+                  </Link>
+                </SheetClose>
+                <SheetClose asChild>
+                  <Link
+                    to="/checkout"
+                    className="bg-gray-950 -mx-1 text-white p-4 w-full flex items-center justify-center gap-2 uppercase  hover:bg-primary transition-all ease-in-out duration-300"
+                  >
+                    Check Out <MdOutlineShoppingCartCheckout size={22} />
+                  </Link>
+                </SheetClose>
+              </div>
+            </div>
+          </>
+        )}
       </SheetContent>
     </Sheet>
   );

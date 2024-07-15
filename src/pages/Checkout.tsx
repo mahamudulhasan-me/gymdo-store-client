@@ -21,7 +21,7 @@ import { MdOutlineShoppingCartCheckout } from "react-icons/md";
 const TAX_RATE = 0.01; // 10% tax rate
 const SHIPPING = 7;
 
-const Cart = () => {
+const Checkout = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const { cartItems, total, totalItems } = useAppSelector(
@@ -157,4 +157,4 @@ const Cart = () => {
   );
 };
 
-export default Cart;
+export default Checkout;
