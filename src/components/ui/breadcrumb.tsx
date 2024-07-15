@@ -50,10 +50,7 @@ const BreadcrumbLink = React.forwardRef<
   return (
     <Comp
       ref={ref}
-      className={cn(
-        "text-white hover:text-primary dark:hover:text-slate-50",
-        className
-      )}
+      className={cn(" hover:text-primary dark:hover:text-slate-50", className)}
       {...props}
     />
   );
@@ -83,7 +80,7 @@ const BreadcrumbSeparator = ({
   <li
     role="presentation"
     aria-hidden="true"
-    className={cn("[&>svg]:size-3.5", className)}
+    className={cn("[&>svg]:size-5", className)}
     {...props}
   >
     {children ?? <ChevronRight />}

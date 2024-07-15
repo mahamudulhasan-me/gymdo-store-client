@@ -12,14 +12,19 @@ import {
   removeFromCart,
 } from "../../redux/features/cart/cartSlice";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
-import { Sheet, SheetContent, SheetHeader, SheetTrigger } from "../ui/sheet";
-export function Cart() {
+import {
+  Sheet,
+  SheetClose,
+  SheetContent,
+  SheetHeader,
+  SheetTrigger,
+} from "../ui/sheet";
+export function CartSheet() {
   const { totalItems, total, cartItems } = useAppSelector(
     (state) => state.cart
   );
   const dispatch = useAppDispatch();
 
-  console.log(cartItems[0]);
   return (
     <Sheet>
       <SheetTrigger asChild>
@@ -87,18 +92,22 @@ export function Cart() {
             <p className="text-primary">${total}.00</p>
           </div>
           <div className="flex items-center justify-between">
-            <Link
-              to="/cart"
-              className="bg-gray-900 -mx-2 text-white p-4 w-full flex items-center justify-center gap-2 uppercase  hover:bg-primary transition-all ease-in-out duration-300"
-            >
-              View Cart <HiOutlineShoppingCart size={22} />
-            </Link>
-            <Link
-              to="/cart"
-              className="bg-gray-950 -mx-1 text-white p-4 w-full flex items-center justify-center gap-2 uppercase  hover:bg-primary transition-all ease-in-out duration-300"
-            >
-              Check Out <MdOutlineShoppingCartCheckout size={22} />
-            </Link>
+            <SheetClose asChild>
+              <Link
+                to="/cart"
+                className="bg-gray-900 -mx-2 text-white p-4 w-full flex items-center justify-center gap-2 uppercase  hover:bg-primary transition-all ease-in-out duration-300"
+              >
+                View Cart <HiOutlineShoppingCart size={22} />
+              </Link>
+            </SheetClose>
+            <SheetClose asChild>
+              <Link
+                to="/cart"
+                className="bg-gray-950 -mx-1 text-white p-4 w-full flex items-center justify-center gap-2 uppercase  hover:bg-primary transition-all ease-in-out duration-300"
+              >
+                Check Out <MdOutlineShoppingCartCheckout size={22} />
+              </Link>
+            </SheetClose>
           </div>
         </div>
       </SheetContent>

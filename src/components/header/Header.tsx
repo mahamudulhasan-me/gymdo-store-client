@@ -3,14 +3,14 @@ import { HiOutlineUser } from "react-icons/hi2";
 import { Link } from "react-router-dom";
 import logo from "../../assets/images/logo.png";
 
-import { Cart } from "../cart/Cart";
+import { CartSheet } from "../cart/CartSheet";
 import NavItems from "./Nav/NavItems";
 import ResponsiveNav from "./Nav/ResponsiveNav";
 
 const Header = () => {
   return (
-    <div className="bg-white">
-      <div className="container mx-auto flex items-center justify-between md:py-6 border-b">
+    <header className="bg-white border-b">
+      <div className="container mx-auto flex items-center justify-between md:py-6 ">
         <ResponsiveNav />
         <Link to={"/"}>
           <img src={logo} alt="gymdo logo" className="w-36" />
@@ -21,10 +21,10 @@ const Header = () => {
         <div className="flex gap-4 text-2xl">
           <HiOutlineSearch />
           <HiOutlineUser />
-          <Cart />
+          <CartSheet />
         </div>
       </div>
-    </div>
+    </header>
   );
 };
 
