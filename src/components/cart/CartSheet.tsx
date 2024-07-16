@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { FiShoppingBag } from "react-icons/fi";
 import {
   HiOutlineMinus,
@@ -7,6 +8,7 @@ import {
 } from "react-icons/hi2";
 import { MdOutlineShoppingCartCheckout } from "react-icons/md";
 import { Link } from "react-router-dom";
+import { toast } from "sonner";
 import {
   decrementQuantity,
   incrementQuantity,
@@ -25,6 +27,14 @@ export function CartSheet() {
     (state) => state.cart
   );
   const dispatch = useAppDispatch();
+
+  const handleIncrementQuantity = (item: any) => {
+    if (item.quantity === item.stock) {
+      toast.warning("Out of stock");
+    } else {
+      dispatch(incrementQuantity(item));
+    }
+  };
 
   return (
     <Sheet>
@@ -78,7 +88,7 @@ export function CartSheet() {
                   </aside>
                   <div className="col-span-2 flex flex-col items-center w-12 border ">
                     <button
-                      onClick={() => dispatch(incrementQuantity(item))}
+                      onClick={() => handleIncrementQuantity(item)}
                       className="px-4 py-1 border-b hover:text-primary"
                     >
                       <HiOutlinePlus />

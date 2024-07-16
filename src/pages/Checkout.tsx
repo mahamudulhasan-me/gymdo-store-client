@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -7,9 +7,9 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "../components/ui/breadcrumb";
-import { useAppSelector } from "../redux/hooks";
+import { useAppDispatch, useAppSelector } from "../redux/hooks";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   HiMiniArrowPath,
   HiMiniCreditCard,
@@ -18,10 +18,14 @@ import {
   HiOutlineSparkles,
   HiOutlineTruck,
 } from "react-icons/hi2";
+import { toast } from "sonner";
 import { Input } from "../components/ui/input";
 import { Label } from "../components/ui/label";
+import PrimaryLoader from "../components/ui/loader/PrimaryLoader";
 import { RadioGroup, RadioGroupItem } from "../components/ui/radio-group";
 import { Textarea } from "../components/ui/textarea";
+import { clearCart } from "../redux/features/cart/cartSlice";
+import { useCreateOrderMutation } from "../redux/features/order/orderApi";
 
 const Checkout = () => {
   const [paymentMethod, setPaymentMethod] = useState("COD");
@@ -31,13 +35,17 @@ const Checkout = () => {
   });
   const [contact, setContact] = useState("");
   const [address, setAddress] = useState("");
-  const [postalCode, setPostalCode] = useState("");
+  const [postalCode, setPostalCode] = useState<number>(undefined);
   const [city, setCity] = useState("");
-  const [error, setError] = useState("");
 
   const { cartItems, total, totalItems } = useAppSelector(
     (state) => state.cart
   );
+  console.log(cartItems);
+  const [createOrder, { isLoading, isSuccess, isError, error }] =
+    useCreateOrderMutation();
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
 
   const TAX_RATE = 0.01; // 10% tax rate
   const SHIPPING = 7;
@@ -53,38 +61,57 @@ const Checkout = () => {
   }
 
   const handlePlaceOrder = () => {
-    if (!fullName.firstName || !fullName.lastName) {
-      setError("Please enter your full name");
-      return;
-    } else if (!contact) {
-      setError("Please enter your contact number");
-      return;
-    } else if (!address) {
-      setError("Please enter your address");
-      return;
-    } else if (!postalCode) {
-      setError("Please enter your postal code");
-      return;
-    } else if (!city) {
-      setError("Please enter your city");
+    const errors: string[] = [];
+    if (!contact) {
+      errors.push("Please enter your contact number");
+    }
+    if (!fullName.firstName) {
+      errors.push("Please enter your first name");
+    }
+    if (!fullName.lastName) {
+      errors.push("Please enter your last name");
+    }
+    if (!address) {
+      errors.push("Please enter your address");
+    }
+    if (!postalCode) {
+      errors.push("Please enter your postal code");
+    }
+    if (!city) {
+      errors.push("Please enter your city");
+    }
+
+    if (errors.length) {
+      errors.forEach((error) => toast.error(error));
       return;
     }
+
     const orderInfo = {
-      product: cartItems.map((item) => ({
-        id: item.id,
-        quantity: item.quantity,
-      })),
-      fullName: `${fullName.firstName} ${fullName.lastName}`,
-      contact,
-      address,
-      postalCode,
-      city,
+      products: cartItems,
+      shippingInfo: {
+        name: `${fullName.firstName} ${fullName.lastName}`,
+        contact,
+        address,
+        postalCode,
+        city,
+      },
       paymentMethod,
-      totalAmount,
+      totalAmount: Number(totalAmount),
     };
-    console.log(orderInfo);
+
+    createOrder(orderInfo);
   };
 
+  useEffect(() => {
+    if (isSuccess) {
+      toast.success("Order created successfully");
+      navigate("/");
+      dispatch(clearCart());
+    }
+    if (isError) {
+      toast.error(error.data.message);
+    }
+  }, [isSuccess, isError, navigate, error, dispatch]);
   return (
     <section>
       <Breadcrumb className="my-5 py-6 bg-gray-100">
@@ -108,6 +135,7 @@ const Checkout = () => {
           </BreadcrumbItem>
         </BreadcrumbList>
       </Breadcrumb>
+      {isLoading && <PrimaryLoader />}
       <div className="relative container mx-auto grid grid-cols-12 mt-4 mb-20 gap-10">
         <aside className="col-span-7">
           <form>
@@ -154,10 +182,10 @@ const Checkout = () => {
                   onChange={(e) => setCity(e.target.value)}
                 />
                 <Input
-                  type="text"
+                  type="number"
                   placeholder="Postal Code"
                   value={postalCode}
-                  onChange={(e) => setPostalCode(e.target.value)}
+                  onChange={(e) => setPostalCode(Number(e.target.value))}
                 />
               </div>
               <Textarea
@@ -247,7 +275,7 @@ const Checkout = () => {
           </div>
 
           <button
-            disabled={totalItems <= 0}
+            disabled={totalItems <= 0 || isLoading}
             onClick={handlePlaceOrder}
             className="rounded-sm mt-5 text-white p-4 w-full flex items-center justify-center gap-2 text-xl uppercase bg-primary transition-all ease-in-out duration-300 group"
           >

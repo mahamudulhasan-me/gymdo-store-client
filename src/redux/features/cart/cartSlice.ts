@@ -24,9 +24,9 @@ const cartSlice = createSlice({
       if (itemIndex >= 0) {
         state.cartItems[itemIndex].quantity += 1;
       } else {
-        state.cartItems.push({ ...action.payload, quantity: 1 });
+        state.cartItems.push({ ...action.payload });
       }
-      state.total += action.payload.price;
+      state.total += action.payload.price * action.payload.quantity;
       state.totalItems += 1;
     },
     removeFromCart(

@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { HiOutlineMinus, HiOutlinePlus } from "react-icons/hi2";
+import { toast } from "sonner";
 import { addToCart } from "../../redux/features/cart/cartSlice";
 import { closeQuickViewModal } from "../../redux/features/quickViewProduct/quickViewSlice";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
@@ -8,14 +9,18 @@ import BtnAddToCart from "../ui/BtnAddToCart";
 import { Dialog, DialogContent, DialogOverlay } from "../ui/dialog";
 import PrimaryLoader from "../ui/loader/PrimaryLoader";
 
-export default function ProductQuickViewModal() {
-  const [quantity, setQuantity] = useState(1);
+const ProductQuickViewModal = () => {
   const { isOpen, product, isLoading, onClose } = useAppSelector(
     (state) => state.quickView
   );
+  const { _id, stock, name, price, description, image, thumbnail } =
+    product as IProduct;
 
-  const { name, price, description, image, thumbnail } = product as IProduct;
+  const [quantity, setQuantity] = useState(1);
   const [thumbnailUrl, setThumbnailUrl] = useState(thumbnail);
+
+  const { cartItems } = useAppSelector((state) => state.cart);
+  const inCart = cartItems.find((item) => item.id === _id);
 
   useEffect(() => {
     setThumbnailUrl(thumbnail);
@@ -31,7 +36,13 @@ export default function ProductQuickViewModal() {
     dispatch(closeQuickViewModal());
     onClose();
   };
-
+  const handleIncrementQuantity = () => {
+    if (stock <= quantity) {
+      toast.warning("Out of stock");
+    } else {
+      setQuantity(quantity + 1);
+    }
+  };
   return isLoading ? (
     <PrimaryLoader />
   ) : (
@@ -54,21 +65,28 @@ export default function ProductQuickViewModal() {
         <div>
           <div className="border-b border-gray-300 pb-4">
             <h2 className="text-xl font-bold pb-1">{name}</h2>
-            <p>${price} USD</p>
+            <p>
+              {stock > 0 ? (
+                <span>{stock} In stock</span>
+              ) : (
+                <span className="text-rose-600">Out of stock</span>
+              )}
+            </p>
+            <p className="text-primary">${price} USD</p>
           </div>
           <p className="pt-4 text-gray-700">{description}</p>
-          <div className="flex items-center mt-10 gap-6">
-            <div className="border-2 font-bold text-xl flex items-center space-x-2">
+          <div className="flex items-center mt-10 gap-6 ">
+            <div className="border-2 border-gray-300  font-bold text-xl flex items-center space-x-2">
               <span className="px-3 w-10">{quantity}</span>
-              <div className="flex flex-col items-center border-l">
+              <div className="flex flex-col items-center border-l border-gray-300 ">
                 <button
-                  onClick={() => setQuantity(quantity + 1)}
-                  className="px-3 py-0.5 border-b hover:text-primary"
+                  onClick={handleIncrementQuantity}
+                  className="px-3 py-0.5 border-b border-gray-300  hover:text-primary"
                 >
                   <HiOutlinePlus />
                 </button>
                 <button
-                  disabled={quantity === 1}
+                  disabled={quantity <= 1}
                   onClick={() => setQuantity(quantity - 1)}
                   className="px-3 py-0.5  hover:text-primary"
                 >
@@ -77,11 +95,21 @@ export default function ProductQuickViewModal() {
               </div>
             </div>
             <div onClick={() => handleAddToCart(product as IProduct)}>
-              <BtnAddToCart />
+              <BtnAddToCart
+                title={
+                  inCart
+                    ? "Already in cart"
+                    : stock <= 0
+                    ? "Out of stock"
+                    : "Add to cart"
+                }
+                disable={inCart ? true : false || stock <= 0}
+              />
             </div>
           </div>
         </div>
       </DialogContent>
     </Dialog>
   );
-}
+};
+export default ProductQuickViewModal;

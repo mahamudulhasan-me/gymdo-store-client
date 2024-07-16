@@ -4,6 +4,7 @@ import {
   HiOutlineMagnifyingGlass,
   HiOutlineShoppingCart,
 } from "react-icons/hi2";
+import { PiEmpty } from "react-icons/pi";
 import { Link } from "react-router-dom";
 import { toast } from "sonner";
 import { addToCart } from "../../redux/features/cart/cartSlice";
@@ -13,8 +14,7 @@ import {
 } from "../../redux/features/quickViewProduct/quickViewSlice";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { IProduct } from "../../types/product.type";
-import ProductQuickViewModal from "./ProductQickView";
-
+import ProductQuickViewModal from "./ProductQuickView";
 export interface IProductCardProps {
   key?: string;
   productDetails: IProduct;
@@ -22,13 +22,13 @@ export interface IProductCardProps {
 const ProductCard = ({ productDetails }: IProductCardProps) => {
   const dispatch = useAppDispatch();
   const { cartItems } = useAppSelector((state) => state.cart);
-  const { name, price, thumbnail } = productDetails || {};
+  const { _id, name, price, thumbnail, stock } = productDetails || {};
   const inCart = cartItems.find((item) => item.id === productDetails?._id);
 
   const handleOpenModal = (product: IProduct) => {
     dispatch(
       openQuickViewModal({
-        ...product,
+        product: product,
         onClose: () => dispatch(closeQuickViewModal()),
       })
     );
@@ -66,10 +66,13 @@ const ProductCard = ({ productDetails }: IProductCardProps) => {
               ) : (
                 <button
                   onClick={handleAddToCart}
+                  disabled={stock <= 0}
                   className="bg-white rounded-full p-2 hover:bg-primary hover:text-white  text-xl tooltip transform translate-y-10 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-transform duration-500 delay-300"
                 >
-                  <HiOutlineShoppingCart />
-                  <span className="tooltiptext">Add to Cart</span>
+                  {stock > 0 ? <HiOutlineShoppingCart /> : <PiEmpty />}
+                  <span className="tooltiptext">
+                    {stock > 0 ? "Add to cart" : "Out of stock"}
+                  </span>
                 </button>
               )}
 
@@ -88,7 +91,7 @@ const ProductCard = ({ productDetails }: IProductCardProps) => {
           </div>
         </div>
         <div className="text-center  text-gray-700 mt-6">
-          <Link to="" className="text-lg">
+          <Link to={`/products/${_id}`} className="text-lg">
             {name}
           </Link>
           <p className="text-primary">${price}</p>

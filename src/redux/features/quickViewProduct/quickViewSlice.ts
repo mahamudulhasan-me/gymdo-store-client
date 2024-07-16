@@ -14,7 +14,7 @@ const quickViewSlice = createSlice({
     openQuickViewModal: (state, action) => {
       state.isLoading = true;
       state.isOpen = true;
-      state.product = action.payload;
+      state.product = action.payload.product;
       state.onClose = action.payload.onClose;
       state.isLoading = false;
     },
