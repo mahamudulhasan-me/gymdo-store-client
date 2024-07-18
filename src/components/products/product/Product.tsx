@@ -1,11 +1,7 @@
 import { useEffect, useState } from "react";
-import { GoShieldCheck } from "react-icons/go";
 import { HiOutlinePlus } from "react-icons/hi";
-import { HiOutlineMinus } from "react-icons/hi2";
+import { HiOutlineHeart, HiOutlineMinus } from "react-icons/hi2";
 import { MdOutlineShoppingCartCheckout } from "react-icons/md";
-import { PiSealCheckLight } from "react-icons/pi";
-import { SlPlane } from "react-icons/sl";
-import { TbTruckReturn } from "react-icons/tb";
 import { useDispatch } from "react-redux";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { toast } from "sonner";
@@ -22,6 +18,8 @@ import {
   BreadcrumbSeparator,
 } from "../../ui/breadcrumb";
 import BtnAddToCart from "../../ui/BtnAddToCart";
+import Progressbar from "../../ui/Progressbar";
+import Features from "./Features";
 const Product = () => {
   const [quantity, setQuantity] = useState(1);
   const { id } = useParams();
@@ -69,9 +67,15 @@ const Product = () => {
             </BreadcrumbLink>
           </BreadcrumbItem>
           <BreadcrumbSeparator className="text-black text-2xl" />
+          <BreadcrumbItem className="text-xl text-black">
+            <BreadcrumbLink asChild>
+              <Link to="/products">Products</Link>
+            </BreadcrumbLink>
+          </BreadcrumbItem>
+          <BreadcrumbSeparator className="text-black text-2xl" />
           <BreadcrumbItem>
             <BreadcrumbPage className="text-primary text-xl">
-              Your Shopping Cart
+              {name}
             </BreadcrumbPage>
           </BreadcrumbItem>
         </BreadcrumbList>
@@ -102,18 +106,27 @@ const Product = () => {
           <img src={thumbnailUrl} alt={name} className="col-span-9" />
         </aside>
         <aside className="col-span-6">
-          <div className="border-b border-gray-300 pb-8 mb-8">
-            <h2 className="text-2xl font-bold pb-1">{name}</h2>
-            <p className="text-xl text-gray-800">
-              {stock > 0 ? (
-                <span>{stock} In stock</span>
-              ) : (
-                <span className="text-rose-600 ">Out of stock</span>
-              )}
-            </p>
-            <p className="text-primary text-2xl">${price} USD</p>
+          <div className="border-b border-gray-300 pb-8 mb-8 flex items-center justify-between">
+            <aside>
+              {" "}
+              <h2 className="text-2xl font-bold pb-1">{name}</h2>
+              {/* <p className="text-xl text-gray-800">
+                {stock > 0 ? (
+                  <span>{stock} In stock</span>
+                ) : (
+                  <span className="text-rose-600 ">Out of stock</span>
+                )}
+              </p> */}
+              <p className="text-primary text-2xl">${price} USD</p>
+            </aside>
+
+            <button className="tooltip hover:translate-y-0 group-hover:opacity-100 transition-transform duration-500 delay-500 size-10 border border-gray-300 rounded-full hover:bg-primary hover:text-white hover:border-0">
+              <HiOutlineHeart className="w-full flex justify-center items-center text-xl" />
+              <span className="tooltiptext">Add to Wishlist</span>
+            </button>
           </div>
           <p className=" text-gray-700 text-justify">{description}</p>
+          <Progressbar />
           <div className="flex items-center mt-10 gap-6 ">
             <div className="border-2 border-gray-300  font-bold text-xl flex items-center space-x-2">
               <span className="px-3 w-10">{quantity}</span>
@@ -160,24 +173,7 @@ const Product = () => {
           </div>
         </aside>
       </div>
-      <div className="container mx-auto  grid grid-cols-4 gap-5">
-        <div className="border border-gray-300 flex flex-col justify-center items-center w-full py-5 gap-y-3">
-          <SlPlane className="text-primary text-4xl" />
-          <p className=" tracking-widest uppercase">WORLDWIDE SHIPPING</p>
-        </div>
-        <div className="border border-gray-300 flex flex-col justify-center items-center w-full py-5 gap-y-3">
-          <TbTruckReturn className="text-primary text-4xl" />
-          <p className=" tracking-widest uppercase">FREE 60-DAY RETURNS</p>
-        </div>
-        <div className="border border-gray-300 flex flex-col justify-center items-center w-full py-5 gap-y-3">
-          <PiSealCheckLight className="text-primary text-4xl" />
-          <p className=" tracking-widest uppercase">24 MONTH WARRANTY</p>
-        </div>
-        <div className="border border-gray-300 flex flex-col justify-center items-center w-full py-5 gap-y-3">
-          <GoShieldCheck className="text-primary text-4xl" />
-          <p className=" tracking-widest uppercase">100% SECURE CHECKOUT</p>
-        </div>
-      </div>
+      <Features />
     </section>
   );
 };
