@@ -49,8 +49,8 @@ const Cart = () => {
           </BreadcrumbItem>
         </BreadcrumbList>
       </Breadcrumb>
-      <div className="relative container mx-auto grid grid-cols-12 mt-4 mb-20 gap-5">
-        <aside className="col-span-9">
+      <div className="relative container mx-auto md:grid grid-cols-12 mt-4 md:mb-20 mb-10 gap-5 space-y-5 md:space-y-0">
+        <aside className="col-span-9 ">
           <div className="border-x border-t border-gray-300">
             <div className="grid grid-cols-12 border-b border-gray-300  divide-x divide-gray-300 uppercase">
               <p className="col-span-5 p-3">Product Name</p>

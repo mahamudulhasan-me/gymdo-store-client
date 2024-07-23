@@ -15,7 +15,7 @@ export const BannerItem1 = () => {
           <p className="uppercase text-lg tracking-widest font-semibold ">
             Need-IT-Now
           </p>
-          <h1 className="text-7xl text-white mt-5 mb-1 -ml-1">
+          <h1 className="md:text-7xl text-4xl text-white mt-5 mb-1 -ml-1">
             GYM Collection
           </h1>
           <p className="text-lg mb-8">Limit Offer 10% off</p>
@@ -38,7 +38,7 @@ export const BannerItem2 = () => {
           <p className="uppercase text-lg tracking-widest font-semibold ">
             Need-IT-Now
           </p>
-          <h1 className="text-7xl text-white mt-5 mb-1 -ml-1">
+          <h1 className="md:text-7xl text-4xl text-white mt-5 mb-1 -ml-1">
             Clothing Collection
           </h1>
           <p className="text-lg mb-8">Limit Offer 10% off</p>
@@ -62,7 +62,7 @@ export const BannerItem3 = () => {
           <p className="uppercase text-lg tracking-widest font-semibold ">
             Need-IT-Now
           </p>
-          <h1 className="text-7xl text-white mt-5 mb-1 -ml-1">
+          <h1 className="md:text-7xl text-4xl text-white mt-5 mb-1 -ml-1">
             Fitness Collection
           </h1>
           <p className="text-lg mb-8">Limit Offer 40% off</p>

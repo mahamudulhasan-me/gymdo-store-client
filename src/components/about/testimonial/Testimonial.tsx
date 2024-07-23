@@ -10,10 +10,10 @@ import { Swiper, SwiperSlide } from "swiper/react";
 
 const Testimonial = () => {
   return (
-    <div className="md:px-[10%] px-5 my-20">
+    <div className="container mx-auto  my-20">
       <SectionHead title="Happy Clients" />
       <Swiper
-        slidesPerView={3}
+        slidesPerView={1}
         spaceBetween={30}
         autoplay={{
           delay: 3000,

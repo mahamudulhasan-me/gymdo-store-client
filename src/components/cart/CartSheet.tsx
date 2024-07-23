@@ -48,7 +48,7 @@ export function CartSheet() {
           )}
         </button>
       </SheetTrigger>
-      <SheetContent className="w-[29rem] overflow-hidden bg-gray-100">
+      <SheetContent className="md:w-[29rem] overflow-hidden bg-gray-100">
         <SheetHeader className="border-b">
           <div className="flex items-center text-2xl">
             <p className="px-4 py-2 border-r w-12">{totalItems}</p>

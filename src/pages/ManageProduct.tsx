@@ -6,7 +6,7 @@ const ManageProduct = () => {
   return (
     <div>
       <PageCover title="Manage Product" image={banner} />
-      <div className="px-[8%] py-10 bg-gray-100">
+      <div className="md:px-[8%] px-5 py-10 bg-gray-100">
         <SectionHead title="Manage Product" />
         <ProductTable />
       </div>

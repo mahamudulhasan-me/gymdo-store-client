@@ -4,7 +4,7 @@ import team1 from "../../../assets/images/team/ourteam-1-1.jpg";
 
 const TeamMemberCard = () => {
   return (
-    <div className="border">
+    <div className="">
       <div className="relative group overflow-hidden">
         <img src={team1} alt="" />
         <div className="absolute top-0 left-0 w-full h-full bg-slate-950/40 transition-transform ease-in-out duration-300 transform scale-0 group-hover:scale-100 origin-center flex justify-center items-center">

@@ -7,6 +7,7 @@ import {
 import { PiEmpty } from "react-icons/pi";
 import { Link } from "react-router-dom";
 import { toast } from "sonner";
+import productImg from "../../assets/images/products/12.jpg";
 import { addToCart } from "../../redux/features/cart/cartSlice";
 import {
   closeQuickViewModal,
@@ -15,6 +16,7 @@ import {
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { IProduct } from "../../types/product.type";
 import ProductQuickViewModal from "./ProductQuickView";
+
 export interface IProductCardProps {
   key?: string;
   productDetails: IProduct;
@@ -52,7 +54,7 @@ const ProductCard = ({ productDetails }: IProductCardProps) => {
       <ProductQuickViewModal />
       <div>
         <div className="relative group overflow-hidden">
-          <img src={thumbnail} alt="" />
+          <img src={thumbnail || productImg} alt="" />
           <div className="absolute top-0 left-0 w-full h-full bg-slate-950/40 transition-transform ease-in-out duration-300 transform scale-0 group-hover:scale-100 origin-center">
             <div className="absolute top-0 left-0 w-full h-full flex justify-center items-center gap-2">
               {inCart ? (

@@ -158,7 +158,7 @@ export function ProductTable() {
   return (
     <div className="w-full px-[2%] min-h-fit bg-white rounded-md">
       <div className="flex items-center justify-between py-4">
-        <div className="flex items-center   gap-5">
+        <div className="md:flex items-center   gap-5">
           <button onClick={handleUpdateMode}>
             <BtnAddItem />
           </button>

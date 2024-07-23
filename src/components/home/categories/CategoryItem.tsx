@@ -12,7 +12,7 @@ const CategoryItem = ({ img, category }: { img: string; category: string }) => {
         className="absolute 
         top-0 left-0 w-full h-full bg-slate-950/45 flex flex-col justify-center items-center space-y-4"
       >
-        <h2 className="text-4xl text-white font-semibold capitalize">
+        <h2 className="md:text-4xl text-3xl text-white font-semibold capitalize">
           {category}
         </h2>
         <Link to={category}>

@@ -136,7 +136,7 @@ const Checkout = () => {
         </BreadcrumbList>
       </Breadcrumb>
       {isLoading && <PrimaryLoader />}
-      <div className="relative container mx-auto grid grid-cols-12 mt-4 mb-20 gap-10">
+      <div className="relative container mx-auto md:grid grid-cols-12 mt-4 md:mb-20 mb-10 gap-10 space-y-5 md:space-y-0">
         <aside className="col-span-7">
           <form>
             <div>

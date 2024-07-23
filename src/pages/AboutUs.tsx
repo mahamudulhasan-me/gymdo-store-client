@@ -7,14 +7,14 @@ const AboutUs = () => {
   return (
     <div>
       <PageCover title="About Us" />
-      <section className="md:px-[20%] px-5 my-20 grid grid-cols-2 gap-10">
+      <section className="md:px-[20%] px-5 md:my-20 my-10 grid md:grid-cols-2 gap-10">
         <article>
           <h1 className="text-3xl font-semibold mb-2">Our Story</h1>
           <div className="flex gap-2 items-center">
             <div className="w-10 h-0.5 bg-primary"></div>{" "}
             <p className="text-sm text-gray-500">THE HIGH STRESS FAVORITE</p>
           </div>
-          <div className="mt-10 text-gray-500 text-justify space-y-4">
+          <div className="md:mt-10 mt-5 text-gray-500 text-justify md:space-y-4 space-y-2">
             <p>
               Praesent metus tellus, elementum eu, semper a, adipiscing nec,
               purus. Vestibulum volutpat pretium libero. In ut quam vitae odio
@@ -34,7 +34,7 @@ const AboutUs = () => {
           className="w-full h-full hover:scale-95 transition-all duration-500 "
         />
       </section>
-      <section className="md:px-[20%] px-5 my-20 grid grid-cols-2 gap-10">
+      <section className="md:px-[20%] px-5 md:my-20 my-10 grid md:grid-cols-2 gap-10">
         <img
           src={about2}
           className="w-full h-full hover:scale-95 transition-all duration-500 "
@@ -45,7 +45,7 @@ const AboutUs = () => {
             <div className="w-10 h-0.5 bg-primary"></div>{" "}
             <p className="text-sm text-gray-500">THE HIGH STRESS FAVORITE</p>
           </div>
-          <div className="mt-10 text-gray-500 text-justify space-y-4">
+          <div className="md:mt-10 mt-5 text-gray-500 text-justify md:space-y-4 space-y-2">
             <p>
               Praesent metus tellus, elementum eu, semper a, adipiscing nec,
               purus. Vestibulum volutpat pretium libero. In ut quam vitae odio
