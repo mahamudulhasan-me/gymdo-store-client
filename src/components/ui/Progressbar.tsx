@@ -10,7 +10,7 @@ const Progressbar = () => {
             style={{ width: "80%" }}
             className="progress-bar progress-bar-danger"
           >
-            <span>e </span>
+            <span></span>
           </div>
         </div>
       </div>

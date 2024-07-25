@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
+import { FaFacebookF, FaInstagram, FaTwitter } from "react-icons/fa";
 import { HiOutlinePlus } from "react-icons/hi";
 import { HiOutlineHeart, HiOutlineMinus } from "react-icons/hi2";
 import { MdOutlineShoppingCartCheckout } from "react-icons/md";
 import { useDispatch } from "react-redux";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { toast } from "sonner";
+import fire from "../../../assets/icon/fire.png";
 import { addToCart } from "../../../redux/features/cart/cartSlice";
 import { useGetProductQuery } from "../../../redux/features/product/productApi";
 import { useAppSelector } from "../../../redux/hooks";
@@ -20,6 +22,8 @@ import {
 import BtnAddToCart from "../../ui/BtnAddToCart";
 import Progressbar from "../../ui/Progressbar";
 import Features from "./Features";
+import ProductDetailsDescription from "./ProductDetailsDescription";
+import RelatedProduct from "./RelatedProduct";
 const Product = () => {
   const [quantity, setQuantity] = useState(1);
   const { id } = useParams();
@@ -28,7 +32,17 @@ const Product = () => {
   const product = (data?.data as IProduct) || {};
 
   // Destructure properties directly from the product
-  const { _id, name, image, price, description, thumbnail, stock } = product;
+  const {
+    _id,
+    name,
+    image,
+    price,
+    description,
+    thumbnail,
+    stock,
+    category,
+    subcategory,
+  } = product;
   const { cartItems } = useAppSelector((state) => state.cart);
   const inCart = cartItems.find((item) => item.id === _id);
   const dispatch = useDispatch();
@@ -80,7 +94,7 @@ const Product = () => {
           </BreadcrumbItem>
         </BreadcrumbList>
       </Breadcrumb>
-      <div className="relative container mx-auto grid grid-cols-12 gap-24 mt-4 mb-20 ">
+      <div className="relative container mx-auto grid grid-cols-12 gap-24 mt-4 mb-8 ">
         <aside className="col-span-6 grid grid-cols-12 gap-4">
           <div className="col-span-3 space-y-4 gap-4">
             {Array.from({ length: 2 }).map((_, index) => (
@@ -126,8 +140,30 @@ const Product = () => {
             </button>
           </div>
           <p className=" text-gray-700 text-justify">{description}</p>
-          <Progressbar />
-          <div className="flex items-center mt-10 gap-6 ">
+          {stock > 0 && 40 > stock && (
+            <>
+              <div className="flex items-center gap-2 text-2xl mt-5 mb-2">
+                <img src={fire} alt="fire" className="size-10" />
+                <p className="text-[#ef1c1c]/90">
+                  Hurry! Only <span className="text-[#ef1c1c]">{stock}</span>{" "}
+                  left in stock
+                </p>
+              </div>
+              <Progressbar />
+            </>
+          )}
+          <p className="text-slate-950 font-bold text-lg flex gap-4 mt-5">
+            <Link to={""} className="hover:text-primary transition-all">
+              Size Guide
+            </Link>
+            <Link to={""} className="hover:text-primary transition-all">
+              Delivery & Return
+            </Link>
+            <Link to={""} className="hover:text-primary transition-all">
+              Ask a Question
+            </Link>
+          </p>
+          <div className="flex items-center mt-8 gap-6 ">
             <div className="border-2 border-gray-300  font-bold text-xl flex items-center space-x-2">
               <span className="px-3 w-10">{quantity}</span>
               <div className="flex flex-col items-center border-l border-gray-300 ">
@@ -171,9 +207,48 @@ const Product = () => {
               />
             </Link>
           </div>
+          <div className="border-t border-gray-300 mt-8">
+            <h5 className="text-slate-950 font-semibold text-lg mt-4">
+              Real time <span className="text-primary">1</span> Visitor right
+              now
+            </h5>
+            <h5>
+              <span className="text-slate-950 font-semibold text-lg">
+                Category:
+              </span>{" "}
+              <span className="text-slate-700">
+                {category}, {subcategory}
+              </span>
+            </h5>
+          </div>
         </aside>
       </div>
       <Features />
+      <ProductDetailsDescription />
+      <div className="border-y border-gray-300 flex justify-center items-center gap-2 my-4 p-2">
+        <Link
+          to=""
+          target="_blank"
+          className="size-10 border rounded-full flex justify-center items-center hover:text-white hover:bg-primary transition-all hover:border-primary"
+        >
+          <FaFacebookF />
+        </Link>
+        <Link
+          to=""
+          target="_blank"
+          className="size-10 border rounded-full flex justify-center items-center hover:text-white hover:bg-primary transition-all hover:border-primary"
+        >
+          <FaTwitter />
+        </Link>
+        <Link
+          to=""
+          target="_blank"
+          className="size-10 border rounded-full flex justify-center items-center hover:text-white hover:bg-primary transition-all hover:border-primary"
+        >
+          <FaInstagram />
+        </Link>
+      </div>
+      <RelatedProduct />
     </section>
   );
 };
