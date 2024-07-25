@@ -18,7 +18,7 @@ const PageCover = ({
   return (
     <div className="w-screen relative">
       <img src={image} alt="" className="w-full h-80" />
-      <div className="absolute inset-0 flex flex-col justify-center items-center ">
+      <div className="absolute bg-slate-900/30 inset-0 flex flex-col justify-center items-center ">
         <div className="relative flex flex-col justify-center items-center mb-10">
           <h1
             className={`text-center text-white font-semibold text-4xl capitalize tracking-wide`}
@@ -29,7 +29,7 @@ const PageCover = ({
         </div>
         <Breadcrumb>
           <BreadcrumbList>
-            <BreadcrumbItem>
+            <BreadcrumbItem className="text-slate-50">
               <BreadcrumbLink asChild>
                 <Link to="/">Home</Link>
               </BreadcrumbLink>

@@ -5,15 +5,16 @@ import Categories from "../components/home/categories/Categories";
 import ClothesAndEquipment from "../components/home/clothesAndEquipment/ClothesAndEquipment";
 import NewArrivals from "../components/home/newArrivals/NewArrivals";
 import PhotoGallery from "../components/home/photoGallery/PhotoGallery";
-import WhyChoose from "../components/home/whyChoose/WhyChoose";
+import ReasonsToShop from "../components/home/reasonsToShop/ReasonsToShop";
 
 const HomePage = () => {
   return (
     <div>
       <Banner />
       <Categories />
-      <WhyChoose />
+      {/* <WhyChoose /> */}
       <ClothesAndEquipment />
+      <ReasonsToShop />
       <PhotoGallery />
       <NewArrivals />
       <Brand />

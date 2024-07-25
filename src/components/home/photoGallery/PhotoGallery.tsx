@@ -33,7 +33,7 @@ const PhotoGallery = () => {
       <SectionHead title="Healthy Individuals Gallery" />
 
       <PhotoProvider>
-        <div className="grid grid-cols-12 gap-4 p-4">
+        <div className="grid grid-cols-12 gap-3 p-4">
           {photos.map((photo, index) => (
             <PhotoView key={index} src={photo.src}>
               <div

@@ -36,6 +36,20 @@ const Team = () => {
           pagination={{
             clickable: true,
           }}
+          breakpoints={{
+            640: {
+              slidesPerView: 2,
+              spaceBetween: 10,
+            },
+            768: {
+              slidesPerView: 3,
+              spaceBetween: 15,
+            },
+            1024: {
+              slidesPerView: 3,
+              spaceBetween: 15,
+            },
+          }}
         >
           {Array.from({ length: 8 }).map(() => (
             <SwiperSlide>

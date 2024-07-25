@@ -19,7 +19,7 @@ export default function NewArrivals() {
     <div className="container mx-auto px-5 py-10">
       <SectionHead title="new arrivals" />
       <Swiper
-        slidesPerView={4}
+        slidesPerView={1}
         spaceBetween={30}
         autoplay={{
           delay: 2500,
@@ -27,6 +27,20 @@ export default function NewArrivals() {
         }}
         pagination={{
           clickable: true,
+        }}
+        breakpoints={{
+          640: {
+            slidesPerView: 2,
+            spaceBetween: 20,
+          },
+          768: {
+            slidesPerView: 4,
+            spaceBetween: 30,
+          },
+          1024: {
+            slidesPerView: 4,
+            spaceBetween: 30,
+          },
         }}
         modules={[Pagination, Autoplay]}
         className="mySwiper"

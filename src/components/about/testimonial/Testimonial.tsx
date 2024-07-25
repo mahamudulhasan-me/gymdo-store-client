@@ -22,6 +22,20 @@ const Testimonial = () => {
         pagination={{
           clickable: true,
         }}
+        breakpoints={{
+          640: {
+            slidesPerView: 2,
+            spaceBetween: 20,
+          },
+          768: {
+            slidesPerView: 2,
+            spaceBetween: 30,
+          },
+          1024: {
+            slidesPerView: 3,
+            spaceBetween: 30,
+          },
+        }}
         modules={[Autoplay]}
       >
         {Array.from({ length: 8 }).map(() => (

@@ -93,7 +93,10 @@ const ProductCard = ({ productDetails }: IProductCardProps) => {
           </div>
         </div>
         <div className="text-center  text-gray-700 mt-6">
-          <Link to={`/products/${_id}`} className="text-lg">
+          <Link
+            to={`/products/${_id}`}
+            className="text-lg hover:text-primary transition-all "
+          >
             {name}
           </Link>
           <p className="text-primary">${price}</p>

@@ -6,9 +6,9 @@ const FilterByBrand = () => {
   const dispatch = useAppDispatch();
   const { brand } = useAppSelector((state) => state.filter);
   return (
-    <>
+    <div>
       <div className="border-l-[3px] pl-2 border-black flex items-center gap-2">
-        <h2 className="text-lg uppercase font-semibold tracking-widest">
+        <h2 className="md:text-lg uppercase font-semibold tracking-widest">
           Brand
         </h2>
         <div className="w-full h-[1px] bg-gray-300"></div>
@@ -27,7 +27,7 @@ const FilterByBrand = () => {
           </span>
         ))}
       </div>
-    </>
+    </div>
   );
 };
 
