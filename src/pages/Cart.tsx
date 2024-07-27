@@ -1,4 +1,4 @@
-import { HiOutlineMinus, HiOutlinePlus, HiOutlineTrash } from "react-icons/hi2";
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Link, useNavigate } from "react-router-dom";
 import {
   Breadcrumb,
@@ -8,15 +8,14 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "../components/ui/breadcrumb";
-import {
-  decrementQuantity,
-  incrementQuantity,
-  removeFromCart,
-} from "../redux/features/cart/cartSlice";
+import { incrementQuantity } from "../redux/features/cart/cartSlice";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
 
 import { FiShoppingBag } from "react-icons/fi";
 import { MdOutlineShoppingCartCheckout } from "react-icons/md";
+import { toast } from "sonner";
+import GridViewCart from "../components/cart/GridViewCart";
+import MobileViewCart from "../components/cart/MobileViewCart";
 
 const TAX_RATE = 0.01; // 10% tax rate
 const SHIPPING = 7;
@@ -31,7 +30,13 @@ const Cart = () => {
   const subtotal = total; // assuming `total` is the sum of all item prices
   const tax = subtotal * TAX_RATE;
   const totalWithTax = subtotal + tax;
-
+  const handleIncrementQuantity = (item: any) => {
+    if (item.quantity === item.stock) {
+      toast.warning("Out of stock");
+    } else {
+      dispatch(incrementQuantity(item));
+    }
+  };
   return (
     <section>
       <Breadcrumb className="my-5 py-6 bg-gray-100">
@@ -52,7 +57,7 @@ const Cart = () => {
       <div className="relative container mx-auto md:grid grid-cols-12 mt-4 md:mb-20 mb-10 gap-5 space-y-5 md:space-y-0">
         <aside className="col-span-9 ">
           <div className="border-x border-t border-gray-300">
-            <div className="grid grid-cols-12 border-b border-gray-300  divide-x divide-gray-300 uppercase">
+            <div className="hidden md:grid grid-cols-12 border-b border-gray-300  divide-x divide-gray-300 uppercase">
               <p className="col-span-5 p-3">Product Name</p>
               <p className="col-span-2 p-3 text-center">Price</p>
               <p className="col-span-2 p-3 text-center">Quantity</p>
@@ -71,54 +76,25 @@ const Cart = () => {
               </div>
             ) : (
               cartItems.map((item) => (
-                <div
-                  className="grid grid-cols-12 items-center border-b border-gray-300"
-                  key={item.id}
-                >
-                  <div className="col-span-5 flex items-center gap-4 p-2 ">
-                    <img src={item.image} alt="" className="size-24" />
-                    <p className="text-lg hover:text-primary transition-all">
-                      <Link to="">{item.name}</Link>
-                    </p>
-                  </div>
-                  <p className="col-span-2 p-3 text-center text-lg">
-                    ${item.price}.00
-                  </p>
-                  <div className="col-span-2 border border-gray-300  text-lg flex items-center justify-center space-x-2 w-24 mx-auto shadow-md">
-                    <span className="px-3 w-10">{item.quantity}</span>
-                    <div className="flex flex-col items-center border-l border-gray-300 ">
-                      <button
-                        onClick={() => dispatch(incrementQuantity(item))}
-                        className="px-3 py-0.5 border-b border-gray-300  hover:text-primary"
-                      >
-                        <HiOutlinePlus />
-                      </button>
-                      <button
-                        disabled={item.quantity === 1}
-                        onClick={() => dispatch(decrementQuantity(item))}
-                        className="px-3 py-0.5  hover:text-primary"
-                      >
-                        <HiOutlineMinus />
-                      </button>
-                    </div>
-                  </div>
-                  <p className="col-span-2 p-3 text-center text-lg">
-                    ${item.quantity * item.price}.00
-                  </p>
-                  <button
-                    className="col-span-1 text-center p-3 text-lg hover:text-primary flex justify-center items-center"
-                    onClick={() => dispatch(removeFromCart(item))}
-                  >
-                    <HiOutlineTrash />
-                  </button>
-                </div>
+                <>
+                  <GridViewCart
+                    item={item}
+                    key={item.id}
+                    handleIncrementQuantity={handleIncrementQuantity}
+                  />
+                  <MobileViewCart
+                    item={item}
+                    key={item.id}
+                    handleIncrementQuantity={handleIncrementQuantity}
+                  />
+                </>
               ))
             )}
           </div>
           {totalItems > 0 && (
             <Link
               to="/products"
-              className="bg-gray-950 w-fit  mt-5 text-white py-4 rounded-sm px-5 flex items-center justify-center gap-2 uppercase  hover:bg-primary transition-all ease-in-out duration-300 text-base"
+              className="bg-gray-950 md:w-fit w-full  mt-5 text-white py-4 rounded-sm px-5 flex items-center justify-center gap-2 uppercase  hover:bg-primary transition-all ease-in-out duration-300 text-base"
             >
               Continue Shopping <FiShoppingBag size={22} />
             </Link>

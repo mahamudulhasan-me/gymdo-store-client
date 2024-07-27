@@ -63,11 +63,20 @@ const Product = () => {
       setQuantity(quantity + 1);
     }
   };
-  console.log(cartItems);
+
   const handleAddToCart = (product: IProduct) => {
+    if (stock <= 0) {
+      toast.warning("Out of stock");
+      return;
+    }
+
     if (inCart) {
-      dispatch(incrementQuantity(inCart));
-      toast.success("Added to cart");
+      if (inCart.quantity === stock) {
+        toast.warning("Out of stock");
+      } else {
+        dispatch(incrementQuantity(inCart));
+        toast.success("Added to cart");
+      }
     } else {
       dispatch(addToCart({ ...product, id: product?._id, quantity }));
       toast.success("Added to cart");
