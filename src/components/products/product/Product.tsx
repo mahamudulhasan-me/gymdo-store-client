@@ -7,7 +7,10 @@ import { useDispatch } from "react-redux";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { toast } from "sonner";
 import fire from "../../../assets/icon/fire.png";
-import { addToCart } from "../../../redux/features/cart/cartSlice";
+import {
+  addToCart,
+  incrementQuantity,
+} from "../../../redux/features/cart/cartSlice";
 import { useGetProductQuery } from "../../../redux/features/product/productApi";
 import { useAppSelector } from "../../../redux/hooks";
 import { IProduct } from "../../../types/product.type";
@@ -45,6 +48,7 @@ const Product = () => {
   } = product;
   const { cartItems } = useAppSelector((state) => state.cart);
   const inCart = cartItems.find((item) => item.id === _id);
+  console.log(inCart);
   const dispatch = useDispatch();
 
   const [thumbnailUrl, setThumbnailUrl] = useState(thumbnail);
@@ -61,10 +65,18 @@ const Product = () => {
   };
   console.log(cartItems);
   const handleAddToCart = (product: IProduct) => {
-    dispatch(addToCart({ ...product, id: product?._id, quantity }));
+    if (inCart) {
+      dispatch(incrementQuantity(inCart));
+      toast.success("Added to cart");
+    } else {
+      dispatch(addToCart({ ...product, id: product?._id, quantity }));
+      toast.success("Added to cart");
+    }
   };
   const handleBuyItNow = (product: IProduct) => {
-    if (inCart) {
+    if (stock <= 0) {
+      toast.warning("Out of stock");
+    } else if (inCart) {
       navigate("/checkout");
     } else {
       handleAddToCart(product);
@@ -73,28 +85,28 @@ const Product = () => {
   };
   return (
     <section>
-      <Breadcrumb className="my-5 py-6 bg-gray-100">
+      <Breadcrumb className="my-5 md:py-6 py-3 bg-gray-100">
         <BreadcrumbList className="container mx-auto">
-          <BreadcrumbItem className="text-xl text-black">
+          <BreadcrumbItem className="md:text-xl text-lg text-black">
             <BreadcrumbLink asChild>
               <Link to="/">Home</Link>
             </BreadcrumbLink>
           </BreadcrumbItem>
           <BreadcrumbSeparator className="text-black text-2xl" />
-          <BreadcrumbItem className="text-xl text-black">
+          <BreadcrumbItem className="md:text-xl text-lg text-black">
             <BreadcrumbLink asChild>
               <Link to="/products">Products</Link>
             </BreadcrumbLink>
           </BreadcrumbItem>
-          <BreadcrumbSeparator className="text-black text-2xl" />
+          <BreadcrumbSeparator className="text-black md:text-2xl" />
           <BreadcrumbItem>
-            <BreadcrumbPage className="text-primary text-xl">
+            <BreadcrumbPage className="text-primary md:text-xl text-lg">
               {name}
             </BreadcrumbPage>
           </BreadcrumbItem>
         </BreadcrumbList>
       </Breadcrumb>
-      <div className="relative container mx-auto grid grid-cols-12 gap-24 mt-4 mb-8 ">
+      <div className="relative container mx-auto md:grid grid-cols-12 gap-24 mt-4 mb-8 ">
         <aside className="col-span-6 grid grid-cols-12 gap-4">
           <div className="col-span-3 space-y-4 gap-4">
             {Array.from({ length: 2 }).map((_, index) => (
@@ -120,27 +132,22 @@ const Product = () => {
           <img src={thumbnailUrl} alt={name} className="col-span-9" />
         </aside>
         <aside className="col-span-6">
-          <div className="border-b border-gray-300 pb-8 mb-8 flex items-center justify-between">
-            <aside>
-              {" "}
-              <h2 className="text-2xl font-bold pb-1">{name}</h2>
-              {/* <p className="text-xl text-gray-800">
-                {stock > 0 ? (
-                  <span>{stock} In stock</span>
-                ) : (
-                  <span className="text-rose-600 ">Out of stock</span>
-                )}
-              </p> */}
-              <p className="text-primary text-2xl">${price} USD</p>
-            </aside>
+          <div className="border-b border-gray-300 md:pb-8 pb-4 md:mb-8 mb-4 flex items-center justify-between">
+            <div className="mt-4 md:mt-0">
+              <h2 className="md:text-2xl text-xl font-bold pb-1">{name}</h2>
+              <p className="text-primary md:text-2xl text-xl">${price} USD</p>
+            </div>
 
             <button className="tooltip hover:translate-y-0 group-hover:opacity-100 transition-transform duration-500 delay-500 size-10 border border-gray-300 rounded-full hover:bg-primary hover:text-white hover:border-0">
               <HiOutlineHeart className="w-full flex justify-center items-center text-xl" />
               <span className="tooltiptext">Add to Wishlist</span>
             </button>
           </div>
-          <p className=" text-gray-700 text-justify">{description}</p>
-          {stock > 0 && 40 > stock && (
+          <p className=" text-gray-700 text-justify md:text-base text-sm">
+            {description}
+          </p>
+
+          {stock > 0 && 40 > stock ? (
             <>
               <div className="flex items-center gap-2 text-2xl mt-5 mb-2">
                 <img src={fire} alt="fire" className="size-10" />
@@ -151,8 +158,17 @@ const Product = () => {
               </div>
               <Progressbar />
             </>
+          ) : (
+            <p className="text-lg  text-slate-950 font-bold mt-5">
+              {stock > 0 ? (
+                <span>{stock} In stock</span>
+              ) : (
+                <span className="text-[#ef1c1c] ">Out of stock</span>
+              )}
+            </p>
           )}
-          <p className="text-slate-950 font-bold text-lg flex gap-4 mt-5">
+
+          <p className="text-slate-950 font-bold md:text-lg flex flex-wrap gap-4 mt-2">
             <Link to={""} className="hover:text-primary transition-all">
               Size Guide
             </Link>
@@ -163,7 +179,7 @@ const Product = () => {
               Ask a Question
             </Link>
           </p>
-          <div className="flex items-center mt-8 gap-6 ">
+          <div className="flex flex-wrap items-center md:mt-8 mt-4 gap-6 ">
             <div className="border-2 border-gray-300  font-bold text-xl flex items-center space-x-2">
               <span className="px-3 w-10">{quantity}</span>
               <div className="flex flex-col items-center border-l border-gray-300 ">
@@ -192,20 +208,19 @@ const Product = () => {
                     ? "Out of stock"
                     : "Add to cart"
                 }
-                disable={inCart ? true : false || stock <= 0}
+                disable={stock <= 0}
               />
             </div>
-            <Link
-              to={"/checkout"}
+            <button
               onClick={() => handleBuyItNow(product as IProduct)}
-              className="rounded-sm text-white px-6 py-3.5 flex items-center justify-center gap-2 uppercase bg-black transition-all ease-in-out duration-300 group"
+              className="rounded-sm w-full md:w-fit text-white px-6 py-3.5 flex items-center justify-center gap-2 uppercase bg-black transition-all ease-in-out duration-300 group"
             >
-              Buy It Now{" "}
+              Buy It Now
               <MdOutlineShoppingCartCheckout
                 size={22}
                 className="group-hover:ml-5 transition-all  ease-in-out duration-300"
               />
-            </Link>
+            </button>
           </div>
           <div className="border-t border-gray-300 mt-8">
             <h5 className="text-slate-950 font-semibold text-lg mt-4">

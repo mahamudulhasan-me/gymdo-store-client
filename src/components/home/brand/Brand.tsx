@@ -18,7 +18,7 @@ const Brand = () => {
     <div className="bg-[#333333]">
       <div className="py-5 container mx-auto overflow-hidden">
         <Swiper
-          slidesPerView={4}
+          slidesPerView={2}
           spaceBetween={30}
           autoplay={{
             delay: 5000,
@@ -26,6 +26,20 @@ const Brand = () => {
           }}
           pagination={{
             clickable: true,
+          }}
+          breakpoints={{
+            640: {
+              slidesPerView: 2,
+              spaceBetween: 20,
+            },
+            768: {
+              slidesPerView: 4,
+              spaceBetween: 30,
+            },
+            1024: {
+              slidesPerView: 4,
+              spaceBetween: 30,
+            },
           }}
           modules={[Autoplay]}
         >

@@ -19,7 +19,7 @@ const ReasonsToShop = () => {
           </h1>
           <div className="w-24 h-0.5 bg-primary"></div>
         </div>
-        <div className="md:flex items-center justify-between gap-5 space-y-5 md:space-y-0 divide-x ">
+        <div className="md:flex items-center justify-between gap-5 space-y-5 md:space-y-0 md:divide-x divide-y md:divide-y-0">
           <WhyChooseItem
             icon={truck}
             title="Fast National & International Delivery"

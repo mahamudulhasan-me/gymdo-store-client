@@ -19,7 +19,7 @@ const Header = () => {
         <NavItems />
 
         <div className="flex gap-4 text-2xl">
-          <HiOutlineSearch />
+          <HiOutlineSearch className="hidden md:inline-block" />
           <HiOutlineUser />
           <CartSheet />
         </div>

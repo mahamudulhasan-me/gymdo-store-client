@@ -6,7 +6,7 @@ import { TbTruckReturn } from "react-icons/tb";
 const Features = () => {
   return (
     <>
-      <div className="container mx-auto  grid grid-cols-4 gap-5">
+      <div className="container mx-auto  grid md:grid-cols-4 gap-5">
         <div className="border border-gray-300 flex flex-col justify-center items-center w-full py-5 gap-y-3">
           <SlPlane className="text-primary text-4xl" />
           <p className=" tracking-widest uppercase">WORLDWIDE SHIPPING</p>
