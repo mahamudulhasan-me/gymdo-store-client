@@ -6,6 +6,7 @@ import { useAddProductMutation } from "../../redux/features/product/productApi";
 import { useUploadImageMutation } from "../../redux/features/uploadImgbb/imagebbApiSlice";
 import { IProduct } from "../../types/product.type";
 
+import { useAppSelector } from "../../redux/hooks";
 import { brands, categories, subCategories } from "../../utils/categories";
 import { Button } from "../ui/button";
 import {
@@ -32,13 +33,15 @@ import { Textarea } from "../ui/textarea";
 interface IProductMutationModalProps {
   isOpen: boolean;
   onClose: () => void;
-  updateMode?: boolean;
 }
 export function ProductMutationModal({
   isOpen,
   onClose,
-  updateMode,
 }: IProductMutationModalProps) {
+  const { isUpdate, data: updateProductInfo } = useAppSelector(
+    (state) => state.update
+  );
+
   const { register, handleSubmit, control, reset } = useForm({
     defaultValues: {
       name: "",
@@ -53,6 +56,7 @@ export function ProductMutationModal({
       description: "",
     },
   });
+
   const [
     uploadImage,
     {
@@ -122,10 +126,10 @@ export function ProductMutationModal({
       <DialogContent className="sm:max-w-2xl">
         <DialogHeader>
           <DialogTitle className="text-xl">
-            {updateMode ? "Update Product" : "Add Product"}
+            {isUpdate ? "Update Product" : "Add Product"}
           </DialogTitle>
           <DialogDescription>
-            {updateMode
+            {isUpdate
               ? "Update the product details. Click save to update the product."
               : "Add a new product to your inventory. Fill in the required details and click save to add the product."}
           </DialogDescription>

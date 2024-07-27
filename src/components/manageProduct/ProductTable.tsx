@@ -18,6 +18,9 @@ import {
   HiOutlineTrash,
 } from "react-icons/hi2";
 import { useGetProductsQuery } from "../../redux/features/product/productApi";
+import { updateMode } from "../../redux/features/update/updateSlice";
+import { useAppDispatch } from "../../redux/hooks";
+import { IProduct } from "../../types/product.type";
 import BtnAddItem from "../ui/BtnAddItem";
 import { Button } from "../ui/button";
 import {
@@ -57,23 +60,25 @@ export function ProductTable() {
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = useState({});
   const [isModalOpen, setModalOpen] = useState(false);
-  const [updateMode, setUpdateMode] = useState(false);
 
   // Fetch product data
   const { data: products, isLoading } = useGetProductsQuery({});
+  const dispatch = useAppDispatch();
 
   // Handle opening modal in update mode
-  const handleUpdateMode = () => {
-    setUpdateMode(true);
+  const handleOpenModal = () => {
     setModalOpen(true);
+    dispatch(updateMode({ isUpdate: false, data: {} }));
   };
 
   // Handle closing modal
   const closeModal = () => {
     setModalOpen(false);
-    setUpdateMode(false);
   };
-
+  const handleUpdateModal = (data: IProduct) => {
+    setModalOpen(true);
+    dispatch(updateMode({ isUpdate: true, data }));
+  };
   // Define table columns
   const columns: ColumnDef<Product>[] = [
     {
@@ -123,10 +128,10 @@ export function ProductTable() {
     {
       id: "actions",
       header: "Actions",
-      cell: () => (
+      cell: ({ row }) => (
         <div className="flex items-center gap-2 text-lg">
           <HiOutlinePencilSquare
-            onClick={handleUpdateMode}
+            onClick={() => handleUpdateModal(row.original)}
             className="hover:text-primary transition-all cursor-pointer"
           />
           <HiOutlineTrash className="hover:text-rose-600 transition-all cursor-pointer" />
@@ -159,14 +164,10 @@ export function ProductTable() {
     <div className="w-full px-[2%] min-h-fit bg-white rounded-md">
       <div className="flex items-center justify-between py-4">
         <div className="md:flex items-center   gap-5">
-          <button onClick={handleUpdateMode}>
+          <button onClick={handleOpenModal}>
             <BtnAddItem />
           </button>
-          <ProductMutationModal
-            isOpen={isModalOpen}
-            onClose={closeModal}
-            updateMode={updateMode}
-          />
+          <ProductMutationModal isOpen={isModalOpen} onClose={closeModal} />
           <div className="ui-input-container">
             <input
               required

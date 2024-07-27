@@ -3,6 +3,7 @@ import baseApiSlice from "./baseApi/baseApiSlice";
 import cartSlice from "./features/cart/cartSlice";
 import filterSlice from "./features/filterProducts/filterSlice";
 import quickViewSlice from "./features/quickViewProduct/quickViewSlice";
+import updateSlice from "./features/update/updateSlice";
 import { imagebbApiSlice } from "./features/uploadImgbb/imagebbApiSlice";
 
 export const store = configureStore({
@@ -12,6 +13,7 @@ export const store = configureStore({
     filter: filterSlice.reducer,
     cart: cartSlice.reducer,
     quickView: quickViewSlice.reducer,
+    update: updateSlice.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(

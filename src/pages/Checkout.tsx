@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Link, useNavigate } from "react-router-dom";
 import {
   Breadcrumb,
@@ -35,7 +36,7 @@ const Checkout = () => {
   });
   const [contact, setContact] = useState("");
   const [address, setAddress] = useState("");
-  const [postalCode, setPostalCode] = useState<number>(undefined);
+  const [postalCode, setPostalCode] = useState<number>(0);
   const [city, setCity] = useState("");
 
   const { cartItems, total, totalItems } = useAppSelector(
@@ -109,27 +110,27 @@ const Checkout = () => {
       dispatch(clearCart());
     }
     if (isError) {
-      toast.error(error.data.message);
+      toast.error((error as any).data.message);
     }
   }, [isSuccess, isError, navigate, error, dispatch]);
   return (
     <section>
       <Breadcrumb className="my-5 py-6 bg-gray-100">
         <BreadcrumbList className="container mx-auto">
-          <BreadcrumbItem className="text-xl text-black">
+          <BreadcrumbItem className="md:text-xl text-lg text-black">
             <BreadcrumbLink asChild>
               <Link to="/">Home</Link>
             </BreadcrumbLink>
           </BreadcrumbItem>
           <BreadcrumbSeparator className="text-black text-2xl" />
-          <BreadcrumbItem className="text-xl text-black">
+          <BreadcrumbItem className="md:text-xl text-lg text-black">
             <BreadcrumbLink asChild>
               <Link to="/cart">Cart</Link>
             </BreadcrumbLink>
             <BreadcrumbSeparator className="text-black text-2xl" />
           </BreadcrumbItem>
           <BreadcrumbItem>
-            <BreadcrumbPage className="text-primary text-xl">
+            <BreadcrumbPage className="text-primary md:text-xl text-lg">
               Checkout
             </BreadcrumbPage>
           </BreadcrumbItem>
@@ -140,7 +141,7 @@ const Checkout = () => {
         <aside className="col-span-7">
           <form>
             <div>
-              <Label className="text-xl">Contact</Label>
+              <Label className="md:text-xl text-lg">Contact</Label>
               <Input
                 type="text"
                 placeholder="Email or mobile phone number"
@@ -150,7 +151,7 @@ const Checkout = () => {
                 onChange={(e) => setContact(e.target.value)}
               />
             </div>
-            <Label className="text-xl ">Delivery</Label>
+            <Label className="md:text-xl text-lg">Delivery</Label>
             <div className="space-y-3 mb-5">
               <div className="grid grid-cols-2 gap-3">
                 <Input
@@ -196,7 +197,7 @@ const Checkout = () => {
               />
             </div>
             <div className="space-y-3">
-              <Label className="text-xl">Payment Method</Label>
+              <Label className="md:text-xl text-lg">Payment Method</Label>
               <RadioGroup
                 defaultValue={paymentMethod}
                 onValueChange={(value) => setPaymentMethod(value)}
@@ -214,7 +215,7 @@ const Checkout = () => {
           </form>
           <Link
             to="/cart"
-            className="bg-gray-950 w-fit  mt-6 text-white py-4 rounded-sm px-5 flex items-center justify-center gap-2 uppercase  hover:bg-primary transition-all ease-in-out duration-300 "
+            className="bg-gray-950 md:w-fit w-full mt-6 text-white py-4 rounded-sm px-5 flex items-center justify-center gap-2 uppercase  hover:bg-primary transition-all ease-in-out duration-300 "
           >
             Update Cart <HiOutlineShoppingCart size={20} />
           </Link>
