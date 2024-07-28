@@ -74,6 +74,7 @@ export function ProductTable() {
   // Handle closing modal
   const closeModal = () => {
     setModalOpen(false);
+    dispatch(updateMode({ isUpdate: false, data: {} }));
   };
   const handleUpdateModal = (data: IProduct) => {
     setModalOpen(true);

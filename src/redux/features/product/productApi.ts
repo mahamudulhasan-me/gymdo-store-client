@@ -44,6 +44,22 @@ const productApiSlice = baseApiSlice.injectEndpoints({
       }),
       providesTags: (_result, _error, id) => [{ type: "Products", id }], // Provide specific cache tags for product details
     }),
+
+    // Mutation to update a product
+    updateProduct: builder.mutation({
+      query: (data) => ({
+        url: `products/${data.id}`,
+        method: "PATCH",
+        body: data.data,
+      }),
+      invalidatesTags: [{ type: "Products", id: "LIST" }], // Invalidate product list cache on mutation
+    }),
+    deleteProduct: builder.mutation({
+      query: (id) => ({
+        url: `products/${id}`,
+        method: "DELETE",
+      }),
+    }),
   }),
 });
 
@@ -51,4 +67,6 @@ export const {
   useAddProductMutation, // Hook for adding a product mutation
   useGetProductsQuery, // Hook for fetching products with query parameters
   useGetProductQuery, // Hook for fetching a single product by ID
+  useUpdateProductMutation, // Hook for updating a product
+  useDeleteProductMutation, // Hook for deleting a product
 } = productApiSlice;

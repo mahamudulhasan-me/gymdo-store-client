@@ -1,8 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "sonner";
-import { useAddProductMutation } from "../../redux/features/product/productApi";
+import {
+  useAddProductMutation,
+  useUpdateProductMutation,
+} from "../../redux/features/product/productApi";
 import { useUploadImageMutation } from "../../redux/features/uploadImgbb/imagebbApiSlice";
 import { IProduct } from "../../types/product.type";
 
@@ -30,10 +33,12 @@ import {
   SelectValue,
 } from "../ui/select";
 import { Textarea } from "../ui/textarea";
+
 interface IProductMutationModalProps {
   isOpen: boolean;
   onClose: () => void;
 }
+
 export function ProductMutationModal({
   isOpen,
   onClose,
@@ -42,30 +47,38 @@ export function ProductMutationModal({
     (state) => state.update
   );
 
-  const { register, handleSubmit, control, reset } = useForm({
-    defaultValues: {
-      name: "",
-      category: "",
-      subcategory: "",
-      brand: "",
-      price: 0,
-      discount: 0,
-      stock: 0,
-      thumbnail: "",
-      image: "",
-      description: "",
-    },
-  });
+  const [showThumbnailInput, setShowThumbnailInput] = useState(!isUpdate);
+  const [showImageInput, setShowImageInput] = useState(!isUpdate);
+
+  const { register, handleSubmit, control, reset, setValue } =
+    useForm<IProduct>({
+      defaultValues: {
+        name: "",
+        category: "",
+        subcategory: "",
+        brand: "",
+        price: 0,
+        discount: 0,
+        stock: 0,
+        thumbnail: "",
+        image: "",
+        description: "",
+      },
+    });
+
+  useEffect(() => {
+    if (updateProductInfo) {
+      reset(updateProductInfo);
+      setShowThumbnailInput(!updateProductInfo.thumbnail);
+      setShowImageInput(!updateProductInfo.image);
+    }
+  }, [updateProductInfo, reset]);
 
   const [
     uploadImage,
-    {
-      isLoading: isUploading,
-      // isSuccess: isUploaded,
-      isError: isUploadError,
-      error: uploadError,
-    },
+    { isLoading: isUploading, isError: isUploadError, error: uploadError },
   ] = useUploadImageMutation();
+
   const [
     addProduct,
     {
@@ -76,39 +89,69 @@ export function ProductMutationModal({
     },
   ] = useAddProductMutation();
 
+  const [
+    updateProduct,
+    {
+      isLoading: isUpdatingProduct,
+      isSuccess: isUpdatedProduct,
+      isError: isUpdateProductError,
+      error: updateProductError,
+    },
+  ] = useUpdateProductMutation();
+
   const onSubmit: SubmitHandler<IProduct> = async (data) => {
-    const thumbnailFormData = new FormData();
-    thumbnailFormData.append("image", data.thumbnail[0]);
-
-    const imageFormData = new FormData();
-    imageFormData.append("image", data.image[0]);
-
     try {
-      const thumbnailResponse = await uploadImage(thumbnailFormData).unwrap();
-      const imageResponse = await uploadImage(imageFormData).unwrap();
+      let thumbnailUrl = data.thumbnail as unknown as string;
+      let imageUrl = data.image as unknown as string;
+
+      if (!isUpdate || (data.thumbnail && typeof data.thumbnail !== "string")) {
+        const thumbnailFormData = new FormData();
+        thumbnailFormData.append("image", data.thumbnail[0]);
+        const thumbnailResponse = await uploadImage(thumbnailFormData).unwrap();
+        thumbnailUrl = thumbnailResponse.data.url;
+      }
+
+      if (!isUpdate || (data.image && typeof data.image !== "string")) {
+        const imageFormData = new FormData();
+        imageFormData.append("image", data.image[0]);
+        const imageResponse = await uploadImage(imageFormData).unwrap();
+        imageUrl = imageResponse.data.url;
+      }
 
       const productData = {
-        ...data,
-        thumbnail: thumbnailResponse.data.url,
-        image: imageResponse.data.url,
+        name: data.name,
+        category: data.category,
+        subcategory: data.subcategory,
+        brand: data.brand,
+        description: data.description,
+        thumbnail: thumbnailUrl,
+        image: imageUrl,
         price: Number(data.price),
         discount: Number(data.discount),
         stock: Number(data.stock),
       };
 
-      addProduct(productData);
+      if (isUpdate) {
+        await updateProduct({ id: data._id, data: productData });
+        console.log({ id: data._id, data: productData });
+      } else {
+        await addProduct(productData);
+      }
     } catch (err) {
-      console.error("Failed to upload images: ", err);
+      console.error("Failed to process product data: ", err);
     }
   };
 
   useEffect(() => {
     if (isAddedProduct) {
-      toast("Product added successfully");
-      onClose();
-      reset();
+      toast.success("Product added successfully");
+    } else if (isUpdatedProduct) {
+      toast.success("Product updated successfully");
     }
-  }, [isAddedProduct, onClose, reset]);
+    onClose();
+    reset();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isAddedProduct, isUpdatedProduct]);
 
   useEffect(() => {
     if (isUploadError) {
@@ -117,8 +160,17 @@ export function ProductMutationModal({
       );
     } else if (isAddProductError) {
       toast((addProductError as any).data.message);
+    } else if (isUpdateProductError) {
+      toast((updateProductError as any).data.message);
     }
-  }, [isUploadError, isAddProductError, uploadError, addProductError]);
+  }, [
+    isUploadError,
+    isAddProductError,
+    isUpdateProductError,
+    uploadError,
+    addProductError,
+    updateProductError,
+  ]);
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
@@ -135,15 +187,15 @@ export function ProductMutationModal({
           </DialogDescription>
         </DialogHeader>
         <form onSubmit={handleSubmit(onSubmit)}>
-          {(isUploading || isAddingProduct) && <PrimaryLoader />}
+          {(isUploading || isAddingProduct || isUpdatingProduct) && (
+            <PrimaryLoader />
+          )}
 
           <div className="grid gap-5 py-4">
-            <>
-              <div>
-                <Label className="text-right">Name*</Label>
-                <Input type="text" required {...register("name")} />
-              </div>
-            </>
+            <div>
+              <Label className="text-right">Name*</Label>
+              <Input type="text" required {...register("name")} />
+            </div>
             <div className="grid grid-cols-2 gap-3">
               <div>
                 <Label className="text-right">Category*</Label>
@@ -236,11 +288,49 @@ export function ProductMutationModal({
               </div>
               <div className="col-span-2">
                 <Label>Thumbnail*</Label>
-                <Input type="file" {...register("thumbnail")} required />
+                {isUpdate &&
+                updateProductInfo?.thumbnail &&
+                !showThumbnailInput ? (
+                  <div className="flex items-center">
+                    <img
+                      src={updateProductInfo.thumbnail}
+                      alt="thumbnail"
+                      className="w-20 h-20 mr-3"
+                    />
+                    <Button
+                      type="button"
+                      onClick={() => setShowThumbnailInput(true)}
+                    >
+                      Change
+                    </Button>
+                  </div>
+                ) : (
+                  <Input
+                    type="file"
+                    {...register("thumbnail")}
+                    required={!isUpdate}
+                  />
+                )}
               </div>
               <div className="col-span-2">
                 <Label>Image</Label>
-                <Input type="file" {...register("image")} />
+                {isUpdate && updateProductInfo?.image && !showImageInput ? (
+                  <div className="flex items-center">
+                    <img
+                      src={updateProductInfo.image}
+                      alt="image"
+                      className="w-20 h-20 mr-3"
+                    />
+                    <Button
+                      type="button"
+                      onClick={() => setShowImageInput(true)}
+                    >
+                      Change
+                    </Button>
+                  </div>
+                ) : (
+                  <Input type="file" {...register("image")} />
+                )}
               </div>
             </div>
             <div>
@@ -249,7 +339,10 @@ export function ProductMutationModal({
             </div>
           </div>
           <DialogFooter>
-            <Button disabled={isAddingProduct || isUploading} type="submit">
+            <Button
+              disabled={isAddingProduct || isUploading || isUpdatingProduct}
+              type="submit"
+            >
               Save changes
             </Button>
           </DialogFooter>
