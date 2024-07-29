@@ -20,6 +20,7 @@ export const store = configureStore({
       baseApiSlice.middleware,
       imagebbApiSlice.middleware
     ),
+  devTools: import.meta.env.NODE_ENV !== "production",
 });
 
 // Infer the `RootState` and `AppDispatch` types from the store itself

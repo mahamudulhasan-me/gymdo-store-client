@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { IProduct } from "../../../types";
-interface IInitialState {
+export interface IInitialState {
   isUpdate: boolean;
   data: IProduct;
 }
