@@ -1,8 +1,23 @@
 import { createSlice } from "@reduxjs/toolkit";
-
-const initialState = {
+import { IProduct } from "../../../types";
+interface IInitialState {
+  isUpdate: boolean;
+  data: IProduct;
+}
+const initialState: IInitialState = {
   isUpdate: false,
-  data: {},
+  data: {
+    name: "",
+    category: "",
+    subcategory: "",
+    brand: "",
+    price: 0,
+    discount: 0,
+    stock: 0,
+    thumbnail: "",
+    image: "",
+    description: "",
+  },
 };
 
 const updateSlice = createSlice({

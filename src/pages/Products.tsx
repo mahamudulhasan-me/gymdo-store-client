@@ -113,26 +113,26 @@ const Products = () => {
             <PaginationContent className="space-x-4">
               <PaginationItem>
                 <Button variant="outline" className="border-none">
-                  <PaginationPrevious size={24} href="#" />
+                  <PaginationPrevious size="lg" href="#" />
                 </Button>
               </PaginationItem>
               <PaginationItem>
                 <Button variant="outline">
-                  <PaginationLink size={24} href="#">
+                  <PaginationLink size="lg" href="#">
                     2
                   </PaginationLink>
                 </Button>
               </PaginationItem>
               <PaginationItem>
                 <Button variant="outline">
-                  <PaginationLink size={24} href="#">
+                  <PaginationLink size="lg" href="#">
                     1
                   </PaginationLink>
                 </Button>
               </PaginationItem>
               <PaginationItem>
                 <Button variant="outline" className="border-none">
-                  <PaginationNext size={24} href="#" />
+                  <PaginationNext size="lg" href="#" />
                 </Button>
               </PaginationItem>
             </PaginationContent>

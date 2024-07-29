@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import { useEffect, useState } from "react";
 import { FaFacebookF, FaInstagram, FaTwitter } from "react-icons/fa";
 import { HiOutlinePlus } from "react-icons/hi";
@@ -32,6 +33,7 @@ const Product = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const { data } = useGetProductQuery(id as string);
+  //@ts-ignore
   const product = (data?.data as IProduct) || {};
 
   // Destructure properties directly from the product

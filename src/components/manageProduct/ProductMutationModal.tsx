@@ -50,21 +50,20 @@ export function ProductMutationModal({
   const [showThumbnailInput, setShowThumbnailInput] = useState(!isUpdate);
   const [showImageInput, setShowImageInput] = useState(!isUpdate);
 
-  const { register, handleSubmit, control, reset, setValue } =
-    useForm<IProduct>({
-      defaultValues: {
-        name: "",
-        category: "",
-        subcategory: "",
-        brand: "",
-        price: 0,
-        discount: 0,
-        stock: 0,
-        thumbnail: "",
-        image: "",
-        description: "",
-      },
-    });
+  const { register, handleSubmit, control, reset } = useForm<IProduct>({
+    defaultValues: {
+      name: "",
+      category: "",
+      subcategory: "",
+      brand: "",
+      price: 0,
+      discount: 0,
+      stock: 0,
+      thumbnail: "",
+      image: "",
+      description: "",
+    },
+  });
 
   useEffect(() => {
     if (updateProductInfo) {
