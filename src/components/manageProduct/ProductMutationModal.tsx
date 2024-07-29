@@ -133,7 +133,6 @@ export function ProductMutationModal({
 
       if (isUpdate) {
         await updateProduct({ id: data._id, data: productData });
-        console.log({ id: data._id, data: productData });
       } else {
         await addProduct(productData);
       }

@@ -59,6 +59,7 @@ const productApiSlice = baseApiSlice.injectEndpoints({
         url: `products/${id}`,
         method: "DELETE",
       }),
+      invalidatesTags: [{ type: "Products", id: "LIST" }], // Invalidate product list cache on mutation
     }),
   }),
 });
