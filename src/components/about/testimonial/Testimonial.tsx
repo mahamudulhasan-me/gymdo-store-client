@@ -8,7 +8,8 @@ import "swiper/css/pagination";
 import { Autoplay } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { useGetTestimonialsQuery } from "../../../redux/features/testimonial/testimonialApi";
-import { ITestimonial } from "../../../types/testimonial.type";
+
+import { ITestimonial } from "../../../types";
 import TestimonialLoader from "../../ui/loader/TestimonialLoader";
 
 const Testimonial = () => {
@@ -45,11 +46,9 @@ const Testimonial = () => {
       >
         {isLoading ? (
           <div className="grid grid-cols-3 gap-x-7">
-            {Array(3)
-              .fill(0)
-              .map((_, index) => (
-                <TestimonialLoader key={index} />
-              ))}
+            {Array.from({ length: 3 }).map((_, index) => (
+              <TestimonialLoader key={index} />
+            ))}
           </div>
         ) : (
           data?.data.map((item: ITestimonial) => (

@@ -1,6 +1,7 @@
 import about1 from "../assets/images/about/about1.1.jpg";
 import about2 from "../assets/images/about/about1.2.jpg";
 import Team from "../components/about/team/Team";
+
 import Testimonial from "../components/about/testimonial/Testimonial";
 import PageCover from "../components/pageCover/PageCover";
 const AboutUs = () => {

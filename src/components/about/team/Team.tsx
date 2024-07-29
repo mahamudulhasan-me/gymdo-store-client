@@ -1,7 +1,11 @@
 import { Swiper, SwiperSlide } from "swiper/react";
+import { useGetTeamMembersQuery } from "../../../redux/features/teamMember/teamMemberApi";
+import { ITeamMember } from "../../../types";
 import TeamMemberCard from "./TeamMemberCard";
 
 const Team = () => {
+  const { data } = useGetTeamMembersQuery({});
+  console.log(data);
   return (
     <div className="container mx-auto grid md:grid-cols-12">
       <article className="md:col-span-4">
@@ -51,9 +55,9 @@ const Team = () => {
             },
           }}
         >
-          {Array.from({ length: 8 }).map(() => (
+          {data?.data.map((item: ITeamMember) => (
             <SwiperSlide>
-              <TeamMemberCard />
+              <TeamMemberCard item={item} />
             </SwiperSlide>
           ))}
         </Swiper>
@@ -61,5 +65,4 @@ const Team = () => {
     </div>
   );
 };
-
 export default Team;
