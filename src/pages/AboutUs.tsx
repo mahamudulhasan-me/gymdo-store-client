@@ -1,5 +1,6 @@
 import about1 from "../assets/images/about/about1.1.jpg";
 import about2 from "../assets/images/about/about1.2.jpg";
+import Contact from "../components/about/contact/Contact";
 import Team from "../components/about/team/Team";
 
 import Testimonial from "../components/about/testimonial/Testimonial";
@@ -64,6 +65,7 @@ const AboutUs = () => {
       </section>
       <Team />
       <Testimonial />
+      <Contact />
     </div>
   );
 };

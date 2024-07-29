@@ -1,11 +1,12 @@
 import { Swiper, SwiperSlide } from "swiper/react";
 import { useGetTeamMembersQuery } from "../../../redux/features/teamMember/teamMemberApi";
 import { ITeamMember } from "../../../types";
+import TeamMemberLoader from "../../ui/loader/TeamMemberLoader";
 import TeamMemberCard from "./TeamMemberCard";
 
 const Team = () => {
-  const { data } = useGetTeamMembersQuery({});
-  console.log(data);
+  const { data, isLoading } = useGetTeamMembersQuery({});
+
   return (
     <div className="container mx-auto grid md:grid-cols-12">
       <article className="md:col-span-4">
@@ -42,7 +43,7 @@ const Team = () => {
           }}
           breakpoints={{
             640: {
-              slidesPerView: 2,
+              slidesPerView: 1,
               spaceBetween: 10,
             },
             768: {
@@ -55,14 +56,23 @@ const Team = () => {
             },
           }}
         >
-          {data?.data.map((item: ITeamMember) => (
-            <SwiperSlide>
-              <TeamMemberCard item={item} />
-            </SwiperSlide>
-          ))}
+          {isLoading ? (
+            <div className="grid grid-cols-3 gap-x-7">
+              {Array.from({ length: 3 }).map((_, index) => (
+                <TeamMemberLoader key={index} />
+              ))}
+            </div>
+          ) : (
+            data?.data.map((item: ITeamMember) => (
+              <SwiperSlide>
+                <TeamMemberCard item={item} />{" "}
+              </SwiperSlide>
+            ))
+          )}
         </Swiper>
       </div>
     </div>
   );
 };
+
 export default Team;
