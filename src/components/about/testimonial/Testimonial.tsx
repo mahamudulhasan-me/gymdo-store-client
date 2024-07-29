@@ -7,8 +7,13 @@ import "swiper/css";
 import "swiper/css/pagination";
 import { Autoplay } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
+import { useGetTestimonialsQuery } from "../../../redux/features/testimonial/testimonialApi";
+import { ITestimonial } from "../../../types/testimonial.type";
+import TestimonialLoader from "../../ui/loader/TestimonialLoader";
 
 const Testimonial = () => {
+  const { data, isLoading } = useGetTestimonialsQuery({});
+
   return (
     <div className="container mx-auto  my-20">
       <SectionHead title="Happy Clients" />
@@ -38,11 +43,21 @@ const Testimonial = () => {
         }}
         modules={[Autoplay]}
       >
-        {Array.from({ length: 8 }).map(() => (
-          <SwiperSlide>
-            <TestimonialCard />
-          </SwiperSlide>
-        ))}
+        {isLoading ? (
+          <div className="grid grid-cols-3 gap-x-7">
+            {Array(3)
+              .fill(0)
+              .map((_, index) => (
+                <TestimonialLoader key={index} />
+              ))}
+          </div>
+        ) : (
+          data?.data.map((item: ITestimonial) => (
+            <SwiperSlide key={item._id}>
+              <TestimonialCard item={item} />
+            </SwiperSlide>
+          ))
+        )}
       </Swiper>
     </div>
   );
