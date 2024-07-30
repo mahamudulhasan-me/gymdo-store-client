@@ -5,7 +5,6 @@ import { categories } from "../../../utils/categories";
 const FilterByCategories = () => {
   const dispatch = useAppDispatch();
   const { category } = useAppSelector((state) => state.filter);
-  console.log(category);
 
   return (
     <div>

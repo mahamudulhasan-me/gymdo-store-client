@@ -50,7 +50,7 @@ const Product = () => {
   } = product;
   const { cartItems } = useAppSelector((state) => state.cart);
   const inCart = cartItems.find((item) => item.id === _id);
-  console.log(inCart);
+
   const dispatch = useDispatch();
 
   const [thumbnailUrl, setThumbnailUrl] = useState(thumbnail);
