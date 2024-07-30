@@ -1,6 +1,9 @@
+import { Link } from "react-router-dom";
 import banner1 from "../../../assets/images/banner/slideshow-bg1.jpg";
 import banner2 from "../../../assets/images/banner/slideshowV2-bg2.jpg";
 import banner3 from "../../../assets/images/banner/slideshowV2-bg3.jpg";
+import { setCategory } from "../../../redux/features/filterProducts/filterSlice";
+import { useAppDispatch } from "../../../redux/hooks";
 import { BtnPrimary } from "../../ui/BtnPrimary";
 
 export const BannerItem1 = () => {
@@ -19,7 +22,9 @@ export const BannerItem1 = () => {
             GYM Collection
           </h1>
           <p className="text-lg mb-8">Limit Offer 10% off</p>
-          <BtnPrimary text="Stat Shop" title="Shop Now" />
+          <Link to={"/products"}>
+            <BtnPrimary text="Stat Shop" title="Shop Now" />
+          </Link>
         </div>
       </div>
     </div>
@@ -43,7 +48,9 @@ export const BannerItem2 = () => {
           </h1>
           <p className="text-lg mb-8">Limit Offer 10% off</p>
           <div className="flex justify-center">
-            <BtnPrimary text="Stat Shop" title="Shop Now" />
+            <Link to={"/products"}>
+              <BtnPrimary text="Stat Shop" title="Shop Now" />
+            </Link>
           </div>
         </div>
       </div>
@@ -51,6 +58,7 @@ export const BannerItem2 = () => {
   );
 };
 export const BannerItem3 = () => {
+  const dispatch = useAppDispatch();
   return (
     <div>
       <img
@@ -67,7 +75,12 @@ export const BannerItem3 = () => {
           </h1>
           <p className="text-lg mb-8">Limit Offer 40% off</p>
           <div className="flex justify-center">
-            <BtnPrimary text="Stat Shop" title="Shop Now" />
+            <Link
+              to={`/products?category=Fitness`}
+              onClick={() => dispatch(setCategory("Fitness"))}
+            >
+              <BtnPrimary text="Stat Shop" title="Shop Now" />
+            </Link>
           </div>
         </div>
       </div>
