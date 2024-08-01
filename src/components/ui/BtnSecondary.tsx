@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import "./style/BtnSecondaryStyle.css";
 export const BtnSecondary = () => {
   return (
-    <Link className="button" to="#">
+    <Link className="button" to="/products">
       <span className="button__icon-wrapper">
         <svg
           width="10"

@@ -77,7 +77,7 @@ export function CartSheet() {
                   <aside className="col-span-9 flex items-center gap-4">
                     <img src={item.image} alt="" className="size-24" />
                     <div className="space-y-1">
-                      <Link to={`/product/${item.id}`}>
+                      <Link to={`/products/${item.id}`}>
                         <h3 className="text-lg hover:text-primary transition-all">
                           {item.name}
                         </h3>

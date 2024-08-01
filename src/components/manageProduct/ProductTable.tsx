@@ -18,6 +18,7 @@ import {
   HiOutlinePencilSquare,
   HiOutlineTrash,
 } from "react-icons/hi2";
+import { Link } from "react-router-dom";
 import { toast } from "sonner";
 import {
   useDeleteProductMutation,
@@ -57,7 +58,8 @@ import { ProductMutationModal } from "./ProductMutationModal";
 
 // Define the type for your product data
 export type Product = {
-  id: string;
+  _id?: string;
+  id?: string;
   name: string;
   category: string;
   brand: string;
@@ -112,7 +114,9 @@ export function ProductTable() {
       accessorKey: "name",
       header: "Name",
       cell: ({ row }) => (
-        <div className="capitalize">{row.getValue("name")}</div>
+        <Link to={`/products/${row.original._id}`} className="capitalize">
+          {row.getValue("name")}
+        </Link>
       ),
     },
     {
