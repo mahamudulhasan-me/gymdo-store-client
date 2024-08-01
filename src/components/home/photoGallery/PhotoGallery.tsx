@@ -7,6 +7,7 @@ import ig1 from "../../../assets/images/gallery/ig1.jpg";
 import ig10 from "../../../assets/images/gallery/ig10.jpg";
 import ig3 from "../../../assets/images/gallery/ig3.jpg";
 import ig4 from "../../../assets/images/gallery/ig4.jpg";
+import ig5 from "../../../assets/images/gallery/ig5.jpg";
 import ig6 from "../../../assets/images/gallery/ig6.jpg";
 import ig8 from "../../../assets/images/gallery/ig8.jpg";
 import ig9 from "../../../assets/images/gallery/ig9.jpg";
@@ -22,7 +23,7 @@ const PhotoGallery = () => {
     { src: ig10, className: "col-span-12 sm:col-span-6 md:col-span-4" },
     { src: ig8, className: "col-span-12 sm:col-span-6 md:col-span-2" },
     { src: ig9, className: "col-span-12 sm:col-span-6 md:col-span-4" },
-    { src: ig4, className: "col-span-12 sm:col-span-6 md:col-span-2" },
+    { src: ig5, className: "col-span-12 sm:col-span-6 md:col-span-2" },
     { src: ig8, className: "col-span-12 sm:col-span-6 md:col-span-4" },
     { src: ig9, className: "col-span-12 sm:col-span-6 md:col-span-4" },
     { src: ig4, className: "col-span-12 sm:col-span-6 md:col-span-4" },

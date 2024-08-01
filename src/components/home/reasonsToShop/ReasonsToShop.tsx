@@ -8,9 +8,9 @@ const ReasonsToShop = () => {
   return (
     <div
       style={{ backgroundImage: `url(${bg})` }}
-      className="bg-slate-950 bg-blend-overlay bg-opacity-50 bg-cover bg-center bg-no-repeat  text-slate-50 my-20"
+      className="bg-slate-950 bg-blend-overlay bg-opacity-50 bg-cover bg-center bg-no-repeat  text-slate-50 md:my-20 my-10"
     >
-      <div className="container mx-auto py-20">
+      <div className="container mx-auto md:py-20 py-10">
         <div className="relative flex flex-col justify-center items-center mb-20">
           <h1
             className={`text-center text-white   text-3xl capitalize tracking-wide`}

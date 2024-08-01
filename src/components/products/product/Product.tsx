@@ -24,6 +24,7 @@ import {
   BreadcrumbSeparator,
 } from "../../ui/breadcrumb";
 import BtnAddToCart from "../../ui/BtnAddToCart";
+import PrimaryLoader from "../../ui/loader/PrimaryLoader";
 import Progressbar from "../../ui/Progressbar";
 import Features from "./Features";
 import ProductDetailsDescription from "./ProductDetailsDescription";
@@ -32,7 +33,7 @@ const Product = () => {
   const [quantity, setQuantity] = useState(1);
   const { id } = useParams();
   const navigate = useNavigate();
-  const { data } = useGetProductQuery(id as string);
+  const { data, isLoading } = useGetProductQuery(id as string);
   //@ts-ignore
   const product = (data?.data as IProduct) || {};
 
@@ -96,6 +97,7 @@ const Product = () => {
   };
   return (
     <section>
+      {isLoading && <PrimaryLoader />}
       <Breadcrumb className="my-5 md:py-6 py-3 bg-gray-100">
         <BreadcrumbList className="container mx-auto">
           <BreadcrumbItem className="md:text-xl text-lg text-black">

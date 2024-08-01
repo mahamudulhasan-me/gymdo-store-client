@@ -229,10 +229,11 @@ export function ProductTable() {
     <>
       <div className="w-full px-[2%] min-h-fit bg-white rounded-md">
         <div className="flex items-center justify-between py-4">
-          <div className="md:flex items-center   gap-5">
+          <div className="flex items-center flex-wrap w-full  gap-5">
             <button onClick={handleOpenModal}>
               <BtnAddItem />
             </button>
+
             <ProductMutationModal isOpen={isModalOpen} onClose={closeModal} />
             <div className="ui-input-container">
               <input
